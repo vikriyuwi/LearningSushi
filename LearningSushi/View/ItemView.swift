@@ -54,9 +54,9 @@ struct ItemView: View {
     }
     
     func checkUpSide() {
-        if hasMoreThanTwoWords(ingredient.name){
-            return
-        }
+//        if hasMoreThanTwoWords(ingredient.name){
+//            return
+//        }
 
         
         if ingredient.loc.y < 100{

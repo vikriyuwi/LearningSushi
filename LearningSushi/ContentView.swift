@@ -1,17 +1,40 @@
 //
 //  ContentView.swift
-//  LearningSushi
-//
-//  Created by win win on 24/04/24.
+//  Multipeer
+//  Created by Kurnia Kharisma Agung Samiadjie on 27/04/24.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @State var selectedChar: String = "white_user"
+    @State var isSheetOpen = false
+    @State var startGame = false
+    @StateObject var game = GameService()
+
     var body: some View {
-        NavigationStack {
-            ConnectFriend()
+        NavigationView {
+            ZStack {
+                Image("bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .ignoresSafeArea()
+                VStack {
+                    SelectCharacter(isSheetOpen: self.$isSheetOpen, selectedChar: self.$selectedChar)
+                    NavigationLink {
+                        Lobby(selectedChar: self.selectedChar, startGame: self.$startGame)
+                    } label: {
+                        Image("play")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 80)
+                            .padding(.top)
+                    }
+                }
+            }
         }
+        .environmentObject(game)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

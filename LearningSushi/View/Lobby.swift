@@ -18,6 +18,11 @@ struct Lobby: View {
         _connectionManager = StateObject(wrappedValue: MPConnectionManager(yourName: selectedChar))
     }
 
+    func dismissed() {
+        mode.wrappedValue.dismiss()
+        game.emptyIngredients()
+    }
+
     var body: some View {
         ZStack {
             Image("bg")
@@ -26,43 +31,43 @@ struct Lobby: View {
                 .ignoresSafeArea()
             VStack {
                 HStack {
-                    UserCharacter(imgName: connectionManager.myPeerId.displayName, selectedChar: $selectedChar, isSheetOpen: .constant(false))
+                    UserCharacter(imgName: self.connectionManager.myPeerId.displayName, selectedChar: self.$selectedChar, isSheetOpen: .constant(false))
                         .padding()
                         .background(Color("base"))
                         .cornerRadius(50)
                         .frame(width: 140, height: 140)
 
                     HStack(alignment: .bottom, spacing: 12) {
-                        if connectionManager.availablePeers.count == 0 {
+                        if self.connectionManager.availablePeers.count == 0 {
                             Image("white_user")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .opacity(opacityScale)
-                                .scaleEffect(scaleEffect)
+                                .opacity(self.opacityScale)
+                                .scaleEffect(self.scaleEffect)
                                 .onAppear {
                                     let baseAnimation = Animation.easeInOut(duration: 2)
                                     let repeated = baseAnimation.repeatForever(autoreverses: true)
 
                                     withAnimation(repeated) {
-                                        opacityScale = 0.5
-                                        scaleEffect = 1
+                                        self.opacityScale = 0.5
+                                        self.scaleEffect = 1
                                     }
                                 }
                             Image("white_user")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .opacity(opacityScale)
-                                .scaleEffect(scaleEffect)
+                                .opacity(self.opacityScale)
+                                .scaleEffect(self.scaleEffect)
                             Image("white_user")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .opacity(opacityScale)
-                                .scaleEffect(scaleEffect)
+                                .opacity(self.opacityScale)
+                                .scaleEffect(self.scaleEffect)
                         }
-                        ForEach(connectionManager.availablePeers, id: \.self) {
+                        ForEach(self.connectionManager.availablePeers, id: \.self) {
                             peer in
                             Button(action: {
-                                connectionManager.nearbyServiceBrowser.invitePeer(peer, to: connectionManager.session, withContext: nil, timeout: 30)
+                                self.connectionManager.nearbyServiceBrowser.invitePeer(peer, to: self.connectionManager.session, withContext: nil, timeout: 30)
                             }) {
                                 Image(peer.displayName)
                                     .resizable()
@@ -77,12 +82,12 @@ struct Lobby: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(24)
                     .padding(.leading, 20)
-                    .alert("Received Invitation from \(connectionManager.receivedInviteFrom?.displayName ?? "Unknown")",
-                           isPresented: $connectionManager.receivedInvite)
+                    .alert("Received Invitation from \(self.connectionManager.receivedInviteFrom?.displayName ?? "Unknown")",
+                           isPresented: self.$connectionManager.receivedInvite)
                     {
                         Button("Accept") {
                             if let invitationHandler = connectionManager.invitationHandler {
-                                invitationHandler(true, connectionManager.session)
+                                invitationHandler(true, self.connectionManager.session)
                             }
                         }
                         Button("Reject") {
@@ -93,7 +98,7 @@ struct Lobby: View {
                     }
                 }
                 Button {
-                    self.mode.wrappedValue.dismiss()
+                    self.dismissed()
                 } label: {
                     Image(systemName: "arrow.left")
                 }
@@ -103,22 +108,30 @@ struct Lobby: View {
             .offset(y: 32)
         }
         .onAppear {
-            connectionManager.setupGame(game: game)
-            connectionManager.isAvailableToPlay = true
-            connectionManager.startBrowsing()
+            self.connectionManager.setupGame(game: self.game)
+            self.connectionManager.isAvailableToPlay = true
+            self.connectionManager.startBrowsing()
         }
         .onDisappear {
-            connectionManager.stopBrowsing()
-            connectionManager.stopAdvertising()
-            connectionManager.isAvailableToPlay = false
+            self.connectionManager.stopBrowsing()
+            self.connectionManager.stopAdvertising()
+            self.connectionManager.isAvailableToPlay = false
         }
         .onChange(of: connectionManager.paired) { newValue in
-            startGame = newValue
+            self.startGame = newValue
+        }
+        .onChange(of: connectionManager.isPlayAgain) {
+            newValue in
+            if newValue {
+                self.dismissed()
+                self.connectionManager.isPlayAgain = false
+                self.connectionManager.playerFinished = []
+            }
         }
         .fullScreenCover(isPresented: $startGame) {
-            Game()
-                .environmentObject(game)
-                .environmentObject(connectionManager)
+            Game(dismissed: self.dismissed)
+                .environmentObject(self.game)
+                .environmentObject(self.connectionManager)
         }
         .navigationBarBackButtonHidden(true)
     }

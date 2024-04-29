@@ -27,8 +27,9 @@ class MPConnectionManager: NSObject, ObservableObject {
     @Published var receivedInviteFrom: MCPeerID?
     @Published var invitationHandler: ((Bool, MCSession?) -> Void)?
     @Published var paired: Bool = false
-    
-    @Published var playerFinished:[Bool] = []
+    @Published var isPlayAgain: Bool = false
+
+    @Published var playerFinished: [Bool] = []
 
     var isAvailableToPlay: Bool = false {
         didSet {
@@ -60,12 +61,12 @@ class MPConnectionManager: NSObject, ObservableObject {
         playerFinished.append(true)
         print(playerFinished)
     }
-    
+
     func addPlayerFailed() {
         playerFinished.append(false)
         print(playerFinished)
     }
-    
+
     func startAdvertising() {
         nearbyServiceAdvertiser.startAdvertisingPeer()
     }
@@ -150,9 +151,13 @@ extension MPConnectionManager: MCSessionDelegate {
 //                print(ingredient.name)
                 if ingredient.name == "finished" {
                     self.addPlayerFinished()
-                    
+
                 } else if ingredient.name == "failed" {
                     self.addPlayerFailed()
+                } else if ingredient.name == "end" {
+                    self.session.disconnect()
+                    self.isAvailableToPlay = true
+                    self.isPlayAgain = true
                 } else {
                     self.game?.appendItem(ingredient: ingredient.name)
                     self.game?.highestIdx += 1

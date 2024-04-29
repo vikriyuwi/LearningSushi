@@ -5,7 +5,6 @@ struct ContentView: View {
     @State var isSheetOpen = false
     @State var startGame = false
     @StateObject var game = GameService()
-    
 
     var body: some View {
         NavigationView {
@@ -27,6 +26,9 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            print(UIScreen.main.bounds.height)
         }
         .environmentObject(game)
         .navigationViewStyle(StackNavigationViewStyle())

@@ -18,6 +18,7 @@ struct Game: View {
     @State private var munculTimer:Bool = false
     @State var widthCountDown:CGFloat = 0
     @State var colorCountDown:Color = .green
+    @State var isButtonEnabled = true
     
     var body: some View {
         ZStack {
@@ -33,64 +34,85 @@ struct Game: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
-                        Image("sad_user")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 200, height: 200)
-                            .rotationEffect(swing3)
-                            .onAppear {
-                                let baseAnimation = Animation.easeInOut(duration: 1)
-                                let repeated = baseAnimation.repeatForever(autoreverses: true)
+                        VStack {
+                            Spacer()
+                            Image("sad_user")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200, height: 200)
+                                .rotationEffect(swing3)
+                                .onAppear {
+                                    let baseAnimation = Animation.easeInOut(duration: 1)
+                                    let repeated = baseAnimation.repeatForever(autoreverses: true)
 
-                                withAnimation(repeated) {
-                                    swing3 = Angle(degrees: 16)
+                                    withAnimation(repeated) {
+                                        swing3 = Angle(degrees: 16)
+                                    }
+                                    
+                                    Task {
+                                        munculTimer = false
+                                    }
                                 }
-                                
-                                Task {
-                                    munculTimer = false
-                                }
-                            }
+                            // reset button
+                            Spacer()
+                        }
                     } else {
                         Image("bg success")
                             .resizable()
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
-                        Image("happy_user")
-                            .resizable()
-                            .scaledToFit()
-                            .offset(floating)
-                            .rotationEffect(swing2)
-                            .frame(width: 200, height: 200)
-                            .onAppear {
-                                let baseAnimation = Animation.easeInOut(duration: 0.5)
-                                let repeated = baseAnimation.repeatForever(autoreverses: true)
+                        VStack {
+                            Spacer()
+                            Image("happy_user")
+                                .resizable()
+                                .scaledToFit()
+                                .offset(floating)
+                                .rotationEffect(swing2)
+                                .frame(width: 200, height: 200)
+                                .onAppear {
+                                    let baseAnimation = Animation.easeInOut(duration: 0.5)
+                                    let repeated = baseAnimation.repeatForever(autoreverses: true)
 
-                                withAnimation(repeated) {
-                                    swing2 = Angle(degrees: 20)
+                                    withAnimation(repeated) {
+                                        swing2 = Angle(degrees: 20)
+                                    }
                                 }
-                            }
-                            .onAppear {
-                                let baseAnimation2 = Animation.easeInOut(duration: 0.25)
-                                let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
-                                
-                                withAnimation(repeated2) {
-                                    floating = CGSize(width: 0, height: 10)
+                                .onAppear {
+                                    let baseAnimation2 = Animation.easeInOut(duration: 0.25)
+                                    let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
+                                    
+                                    withAnimation(repeated2) {
+                                        floating = CGSize(width: 0, height: 10)
+                                    }
+                                    Task {
+                                        munculTimer = false
+                                    }
                                 }
-                                Task {
-                                    munculTimer = false
-                                }
-                            }
+                            // reset button
+                            Spacer()
+                        }
                     }
                 } else {
                     Button {
+                        guard isButtonEnabled else { return }
+                        isButtonEnabled = false
+                        
                         let newIngredient = MyIngredient(name: ingredients.randomElement()!)
                         self.game.ingredients.append(newIngredient)
                         game.highestIdx += 1
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                            isButtonEnabled = true
+                        }
+                        
                     } label: {
                         Image(systemName: "plus")
+                            .opacity(isButtonEnabled ? 1 : 0.2)
                     }
-
+                    .controlSize(.large)
+                    .buttonStyle(.bordered)
+                    
                     HStack(spacing: 20) {
                         ForEach(self.objective.menus, id: \.self) {
                             menu in
@@ -142,6 +164,8 @@ struct Game: View {
                             // start timer
                             munculTimer = true
                             // time is up
+                            
+                            // timer
                             try? await Task.sleep(for: .seconds(90))
                             if connectionManager.playerFinished.count < 2 {
                                 connectionManager.addPlayerFailed()
@@ -172,7 +196,8 @@ struct Game: View {
                     .ignoresSafeArea()
                 }
                 .onAppear {
-                    withAnimation(Animation.easeOut(duration: 90)) {
+                    // timer
+                    withAnimation(Animation.easeIn(duration: 90)) {
                         widthCountDown = UIScreen.main.bounds.size.width
                         colorCountDown = .red
                     }

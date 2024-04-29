@@ -15,9 +15,10 @@ struct Game: View {
     @State var swing3:Angle = Angle(degrees: -16)
     @State var floating:CGSize = CGSize(width: 0, height: -10)
     
-    @State var timeRemaining = 40
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
+    @State private var munculTimer:Bool = false
+    @State var widthCountDown:CGFloat = 0
+    @State var colorCountDown:Color = .green
+    
     var body: some View {
         ZStack {
             Image("bg")
@@ -43,6 +44,10 @@ struct Game: View {
 
                                 withAnimation(repeated) {
                                     swing3 = Angle(degrees: 16)
+                                }
+                                
+                                Task {
+                                    munculTimer = false
                                 }
                             }
                     } else {
@@ -71,6 +76,9 @@ struct Game: View {
                                 
                                 withAnimation(repeated2) {
                                     floating = CGSize(width: 0, height: 10)
+                                }
+                                Task {
+                                    munculTimer = false
                                 }
                             }
                     }
@@ -131,14 +139,44 @@ struct Game: View {
                     }
                     .onAppear {
                         Task {
+                            // start timer
+                            munculTimer = true
                             // time is up
-                            try? await Task.sleep(for: .seconds(13))
+                            try? await Task.sleep(for: .seconds(90))
                             if connectionManager.playerFinished.count < 2 {
                                 connectionManager.addPlayerFailed()
                                 connectionManager.send(ingredient: MyIngredient(name: "failed"))
                             }
                         }
                     }
+            }
+            if munculTimer {
+                VStack(alignment: .leading) {
+                    Spacer()
+                    HStack {
+                        HStack {
+                            
+                        }
+                        .frame(
+                            maxWidth: widthCountDown,
+                            maxHeight: 50
+                        )
+                        .background(colorCountDown)
+                        .cornerRadius(20)
+                        .ignoresSafeArea()
+                        Spacer()
+                    }
+                    .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: 20)
+                    .background(.accent)
+                    .cornerRadius(20)
+                    .ignoresSafeArea()
+                }
+                .onAppear {
+                    withAnimation(Animation.easeOut(duration: 90)) {
+                        widthCountDown = UIScreen.main.bounds.size.width
+                        colorCountDown = .red
+                    }
+                }
             }
         }
 //        .fullScreenCover(item: $objective.playerFinished., content: <#T##(Identifiable) -> View#>)

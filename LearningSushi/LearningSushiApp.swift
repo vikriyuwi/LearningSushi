@@ -7,4 +7,4 @@ struct LearningSushiApp: App {
             ContentView()
         }
     }
-}
+} 

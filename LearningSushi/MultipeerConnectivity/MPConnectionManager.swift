@@ -12,9 +12,14 @@ class MPConnectionManager: NSObject, ObservableObject {
     let nearbyServiceAdvertiser: MCNearbyServiceAdvertiser
     let nearbyServiceBrowser: MCNearbyServiceBrowser
     var game: GameService?
+    var objective: Objective?
 
-    func setup(game: GameService) {
+    func setupGame(game: GameService) {
         self.game = game
+    }
+
+    func setupObjective(objective: Objective) {
+        self.objective = objective
     }
 
     @Published var availablePeers = [MCPeerID]()
@@ -130,8 +135,15 @@ extension MPConnectionManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         if let ingredient = try? JSONDecoder().decode(MyIngredient.self, from: data) {
             DispatchQueue.main.async {
-                self.game?.appendItem(ingredient: ingredient.name)
-                self.game?.highestIdx += 1
+                print(ingredient.name)
+                if ingredient.name != "finished" {
+                    self.game?.appendItem(ingredient: ingredient.name)
+                    self.game?.highestIdx += 1
+                } else {
+//                  Jadi disini problemnya ketika orang selesai, harusnya playerFinished nambah value true
+                    print("kesini")
+                    self.objective?.playerFinished.append(true)
+                }
             }
         }
     }

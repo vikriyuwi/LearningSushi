@@ -2,15 +2,15 @@ import SwiftUI
 
 struct Lobby: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    
+
     @EnvironmentObject var game: GameService
     @Binding var startGame: Bool
     @State var selectedChar: String
     @StateObject var connectionManager: MPConnectionManager
     @State var isInvited = false
-    
-    @State var opacityScale:Double = 0.2
-    @State var scaleEffect:Double = 0.9
+
+    @State var opacityScale: Double = 0.2
+    @State var scaleEffect: Double = 0.9
 
     init(selectedChar: String, startGame: Binding<Bool>) {
         self.selectedChar = selectedChar
@@ -98,12 +98,12 @@ struct Lobby: View {
                     Image(systemName: "arrow.left")
                 }
                 .buttonStyle(.bordered)
-                .padding(.top,20)
+                .padding(.top, 20)
             }
             .offset(y: 32)
         }
         .onAppear {
-            connectionManager.setup(game: game)
+            connectionManager.setupGame(game: game)
             connectionManager.isAvailableToPlay = true
             connectionManager.startBrowsing()
         }

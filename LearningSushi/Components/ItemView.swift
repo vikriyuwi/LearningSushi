@@ -7,6 +7,7 @@ struct ItemView: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
     @State var zidx: Double
     @Binding var ingredient: MyIngredient
+    @Binding var isFinished: Bool
     
     var body: some View {
         Image(ingredient.name)
@@ -36,14 +37,7 @@ struct ItemView: View {
                     }
                     .onEnded { _ in
                         if checkCollisions() == false {
-                            print("ga cocok")
-                            if checkSide() {
-                                print("bisa send")
-                            } else {
-                                print("ga bisa send")
-                            }
-                        } else {
-                            print("cocok")
+                            checkSide()
                         }
                     }
             )
@@ -54,25 +48,32 @@ struct ItemView: View {
         return words.count >= 2
     }
     
-    func checkSide() -> Bool {
+    func checkSide() {
         if ingredient.loc.y < 100 {
             sendItem()
-            return true
         } else if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
             checkObjective()
-            return true
-        } else {
-            return false
         }
     }
     
     func checkObjective() {
-        
         if let index = objective.menus.firstIndex(of: ingredient.name) {
             objective.menus[index] += " check"
             game.ingredients.removeAll(where: {
                 $0.id == ingredient.id
             })
+            
+            if objective.menus.allSatisfy({
+                $0.contains("check")
+            }) {
+                isFinished = true
+                print(objective.playerFinished)
+                objective.playerFinished.append(true)
+                connectionManager.send(ingredient: MyIngredient(name: "finished"))
+                print(objective.playerFinished)
+            } else {
+                print("Havent finished")
+            }
             
             return
         } else {

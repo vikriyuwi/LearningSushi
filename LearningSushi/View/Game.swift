@@ -3,12 +3,12 @@ import SwiftUI
 struct Game: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
     @EnvironmentObject var game: GameService
-    
+
     let ingredients = ["salmon", "shrimp", "tamago", "tuna", "rice", "rice", "rice", "rice", "wakame", "tobiko", "nori", "nori"]
 
     @State var objective = Objective()
     @State var isStart = false
-
+    @State var isFinished = false
     @State var swing: Angle = .init(degrees: -10)
     @State var floating: CGSize = .init(width: 0, height: -5)
 
@@ -18,6 +18,18 @@ struct Game: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            if isFinished {
+                Text("Finished!")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2))
+            }
+            if objective.playerFinished.count == 2 && objective.playerFinished[0] && objective.playerFinished[1] {
+                Text("Finished Both!")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .position(CGPoint(x: UIScreen.main.bounds.width / 2 - 20, y: UIScreen.main.bounds.height / 2 - 20))
+            }
             if isStart {
                 Button {
                     let newIngredient = MyIngredient(name: ingredients.randomElement()!)
@@ -39,7 +51,7 @@ struct Game: View {
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 50)
                 if self.game.ingredients.count > 0 {
                     ForEach(self.$game.ingredients) { ingredient in
-                        ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient)
+                        ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)
                     }
                 }
             } else {
@@ -74,18 +86,18 @@ struct Game: View {
                     }
             }
         }
+//        .fullScreenCover(item: $objective.playerFinished., content: <#T##(Identifiable) -> View#>)
         .ignoresSafeArea()
         .onAppear {
-            print(game.ingredients)
-//            print(game.ingredients)
-//            for _ in 0 ..< 5 {
-//                let randIdx: Int = .random(in: 0 ... objective.ingredients.count - 1)
-//
-//                let tempIngredient = MyIngredient(name: objective.ingredients[randIdx])
-//
-//                connectionManager.send(ingredient: tempIngredient)
-//                objective.ingredients.remove(at: randIdx)
-//            }
+            connectionManager.setupObjective(objective: objective)
+            for _ in 0 ..< 5 {
+                let randIdx: Int = .random(in: 0 ... objective.ingredients.count - 1)
+
+                let tempIngredient = MyIngredient(name: objective.ingredients[randIdx])
+
+                connectionManager.send(ingredient: tempIngredient)
+                objective.ingredients.remove(at: randIdx)
+            }
         }
     }
 }

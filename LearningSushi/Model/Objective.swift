@@ -12,6 +12,7 @@ let menu = ["sushi salmon", "sushi shrimp", "sushi tamago", "sushi tuna", "wakam
 struct Objective {
     var menus: [String] = []
     var ingredients: [String] = []
+    var playerFinished: [Bool] = []
     
     init() {
         let temp = generateMenu()

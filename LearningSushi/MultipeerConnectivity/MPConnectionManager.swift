@@ -61,6 +61,11 @@ class MPConnectionManager: NSObject, ObservableObject {
         print(playerFinished)
     }
     
+    func addPlayerFailed() {
+        playerFinished.append(false)
+        print(playerFinished)
+    }
+    
     func startAdvertising() {
         nearbyServiceAdvertiser.startAdvertisingPeer()
     }
@@ -143,15 +148,14 @@ extension MPConnectionManager: MCSessionDelegate {
         if let ingredient = try? JSONDecoder().decode(MyIngredient.self, from: data) {
             DispatchQueue.main.async {
 //                print(ingredient.name)
-                if ingredient.name != "finished" {
+                if ingredient.name == "finished" {
+                    self.addPlayerFinished()
+                    
+                } else if ingredient.name == "failed" {
+                    self.addPlayerFailed()
+                } else {
                     self.game?.appendItem(ingredient: ingredient.name)
                     self.game?.highestIdx += 1
-                } else {
-//                  Jadi disini problemnya ketika orang selesai, harusnya playerFinished nambah value true
-//                    print("kesini")
-                    self.addPlayerFinished()
-//                    self.objective?.playerFinished.append(true)
-                    
                 }
             }
         }

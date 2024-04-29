@@ -12,7 +12,11 @@ struct Game: View {
     
     @State var swing:Angle = Angle(degrees: -10)
     @State var swing2:Angle = Angle(degrees: -20)
+    @State var swing3:Angle = Angle(degrees: -16)
     @State var floating:CGSize = CGSize(width: 0, height: -10)
+    
+    @State var timeRemaining = 40
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
@@ -22,33 +26,54 @@ struct Game: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             if isStart {
                 if connectionManager.playerFinished.count == 2 {
-                    Image("bg success")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .ignoresSafeArea()
-                    Image("happy_user")
-                        .resizable()
-                        .scaledToFit()
-                        .offset(floating)
-                        .rotationEffect(swing2)
-                        .frame(width: 200, height: 200)
-                        .onAppear {
-                            let baseAnimation = Animation.easeInOut(duration: 0.5)
-                            let repeated = baseAnimation.repeatForever(autoreverses: true)
+                    if connectionManager.playerFinished[0] == false || connectionManager.playerFinished[1] == false {
+                        Image("bg fail")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .ignoresSafeArea()
+                        Image("sad_user")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200, height: 200)
+                            .rotationEffect(swing3)
+                            .onAppear {
+                                let baseAnimation = Animation.easeInOut(duration: 1)
+                                let repeated = baseAnimation.repeatForever(autoreverses: true)
 
-                            withAnimation(repeated) {
-                                swing2 = Angle(degrees: 20)
+                                withAnimation(repeated) {
+                                    swing3 = Angle(degrees: 16)
+                                }
                             }
-                        }
-                        .onAppear {
-                            let baseAnimation2 = Animation.easeInOut(duration: 0.25)
-                            let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
-                            
-                            withAnimation(repeated2) {
-                                floating = CGSize(width: 0, height: 10)
+                    } else {
+                        Image("bg success")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .ignoresSafeArea()
+                        Image("happy_user")
+                            .resizable()
+                            .scaledToFit()
+                            .offset(floating)
+                            .rotationEffect(swing2)
+                            .frame(width: 200, height: 200)
+                            .onAppear {
+                                let baseAnimation = Animation.easeInOut(duration: 0.5)
+                                let repeated = baseAnimation.repeatForever(autoreverses: true)
+
+                                withAnimation(repeated) {
+                                    swing2 = Angle(degrees: 20)
+                                }
                             }
-                        }
+                            .onAppear {
+                                let baseAnimation2 = Animation.easeInOut(duration: 0.25)
+                                let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
+                                
+                                withAnimation(repeated2) {
+                                    floating = CGSize(width: 0, height: 10)
+                                }
+                            }
+                    }
                 } else {
                     Button {
                         let newIngredient = MyIngredient(name: ingredients.randomElement()!)
@@ -104,6 +129,16 @@ struct Game: View {
                             isStart = true
                         }
                     }
+                    .onAppear {
+                        Task {
+                            // time is up
+                            try? await Task.sleep(for: .seconds(13))
+                            if connectionManager.playerFinished.count < 2 {
+                                connectionManager.addPlayerFailed()
+                                connectionManager.send(ingredient: MyIngredient(name: "failed"))
+                            }
+                        }
+                    }
             }
         }
 //        .fullScreenCover(item: $objective.playerFinished., content: <#T##(Identifiable) -> View#>)
@@ -122,17 +157,17 @@ struct Game: View {
     }
 }
 
-#Preview {
-    struct PreviewWrapper: View {
-        @StateObject var model: GameService = .init()
-        @State var isStart: Bool = false
-        var body: some View {
-            Game(isStart: isStart)
-                .environmentObject(model)
-        }
-    }
-    return PreviewWrapper()
-}
+//#Preview {
+//    struct PreviewWrapper: View {
+//        @StateObject var model: GameService = .init()
+//        @State var isStart: Bool = false
+//        var body: some View {
+//            Game(isStart: isStart)
+//                .environmentObject(model)
+//        }
+//    }
+//    return PreviewWrapper()
+//}
 
 // struct Game_Previews: PreviewProvider {
 //    static var previews: some View {

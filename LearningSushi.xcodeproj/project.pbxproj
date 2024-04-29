@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C0E53682BDF5A81000CD6BF /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0E53672BDF5A81000CD6BF /* Objective.swift */; };
 		B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */; };
 		B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF8712BD8F40B0030F101 /* ContentView.swift */; };
 		B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B26DF8732BD8F40C0030F101 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C0E53672BDF5A81000CD6BF /* Objective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objective.swift; sourceTree = "<group>"; };
 		B26DF86C2BD8F40B0030F101 /* LearningSushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningSushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSushiApp.swift; sourceTree = "<group>"; };
 		B26DF8712BD8F40B0030F101 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				F6876C802BDEA155000A8AAD /* Ingredient.swift */,
 				F6876C822BDEA168000A8AAD /* GameService.swift */,
 				F6876C842BDEA181000A8AAD /* MyIngredient.swift */,
+				4C0E53672BDF5A81000CD6BF /* Objective.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */,
 				F6876C852BDEA181000A8AAD /* MyIngredient.swift in Sources */,
 				F6876C812BDEA155000A8AAD /* Ingredient.swift in Sources */,
+				4C0E53682BDF5A81000CD6BF /* Objective.swift in Sources */,
 				F6876C832BDEA168000A8AAD /* GameService.swift in Sources */,
 				F6876C892BDEA1A2000A8AAD /* SelectCharacter.swift in Sources */,
 			);
@@ -330,7 +334,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = CK8M57PVR8;
+				DEVELOPMENT_TEAM = KK835KRLS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;
@@ -342,7 +346,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,7 +368,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = CK8M57PVR8;
+				DEVELOPMENT_TEAM = KK835KRLS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;
@@ -376,7 +380,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

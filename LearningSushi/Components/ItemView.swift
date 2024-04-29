@@ -17,7 +17,7 @@ struct ItemView: View {
             .zIndex(zidx)
             .onAppear {
                 withAnimation(Animation.spring(duration: 1)) {
-                    ingredient.loc = CGPoint(x: UIScreen.main.bounds.size.width/2 - 60, y: UIScreen.main.bounds.size.height/2)
+                    ingredient.loc = CGPoint(x: ingredient.loc.x, y: .random(in: 100...UIScreen.main.bounds.size.height-300))
                 }
             }
             .transition(.scale)
@@ -98,13 +98,13 @@ struct ItemView: View {
                         })
                         return
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "wakame") || ingredient.name == "wakame" && game.ingredients[i].name == "nori" {
-                        ingredient.name = "wakame gunkan"
+                        ingredient.name = "wakame nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
                         return
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "tobiko") || ingredient.name == "tobiko" && game.ingredients[i].name == "nori" {
-                        ingredient.name = "tobiko gunkan"
+                        ingredient.name = "tobiko nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })

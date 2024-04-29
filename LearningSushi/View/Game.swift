@@ -1,8 +1,13 @@
 import SwiftUI
 
+
+
 struct Game: View {
+    @EnvironmentObject var connectionManager: MPConnectionManager
     @EnvironmentObject var game: GameService
     let ingredients = ["salmon", "shrimp", "tamago", "tuna", "rice", "rice", "rice", "rice", "wakame", "tobiko", "nori", "nori"]
+    
+    @State var objective = Objective()
     @State var isStart = false
     
     @State var swing:Angle = Angle(degrees: -10)
@@ -71,7 +76,32 @@ struct Game: View {
             }
         }
         .ignoresSafeArea()
+        .onAppear(){
+            for i in 0..<5{
+                var randIdx: Int = .random(in: 0 ... objective.ingredients.count-1)
+                
+                var tempIngredient = MyIngredient(name: objective.ingredients[randIdx])
+                
+                connectionManager.send(ingredient: tempIngredient)
+                objective.ingredients.remove(at: randIdx)
+                
+            }
+            
+        }
     }
+    
+    }
+
+#Preview {
+    struct PreviewWrapper: View {
+        @StateObject var model : GameService = GameService()
+        @State var isStart : Bool = true
+        var body: some View {
+            Game(isStart: isStart)
+                .environmentObject(model)
+        }
+    }
+    return PreviewWrapper()
 }
 
 // struct Game_Previews: PreviewProvider {

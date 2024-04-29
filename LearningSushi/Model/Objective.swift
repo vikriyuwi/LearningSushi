@@ -39,8 +39,6 @@ struct Objective {
                 objectiveIngredient.append(String(ingredient))
             }
         }
-        
-//        print("\(objectiveIngredient) ini objective")
 
         return objectiveIngredient
     }

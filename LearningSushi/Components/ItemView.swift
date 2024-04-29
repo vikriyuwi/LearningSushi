@@ -67,10 +67,9 @@ struct ItemView: View {
                 $0.contains("check")
             }) {
                 isFinished = true
-                print(objective.playerFinished)
-                objective.playerFinished.append(true)
+//                objective.playerFinished.append(true)
+                connectionManager.addPlayerFinished()
                 connectionManager.send(ingredient: MyIngredient(name: "finished"))
-                print(objective.playerFinished)
             } else {
                 print("Havent finished")
             }
@@ -93,7 +92,6 @@ struct ItemView: View {
     }
     
     func checkCollisions() -> Bool {
-//        print("Masuk kesini")
         let thisRect = CGRect(origin: ingredient.loc, size: CGSize(width: 150, height: 150))
         
         for i in 0 ..< game.ingredients.count {
@@ -101,7 +99,6 @@ struct ItemView: View {
                 let otherRect = CGRect(origin: game.ingredients[i].loc, size: CGSize(width: 100, height: 100))
                 if thisRect.intersects(otherRect) {
                     // Collision detected
-                    // print("combine \(ingredient.name) and \(ingredients[i].name)")
                     // React to collision here
                     if (ingredient.name == "rice" && game.ingredients[i].name == "salmon") || (ingredient.name == "salmon" && game.ingredients[i].name == "rice") {
                         ingredient.name = "sushi salmon"
@@ -145,7 +142,6 @@ struct ItemView: View {
                 }
             }
         }
-        print("game ingredient ga ada")
         return false
     }
 }

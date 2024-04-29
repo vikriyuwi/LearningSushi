@@ -9,8 +9,10 @@ struct Game: View {
     @State var objective = Objective()
     @State var isStart = false
     @State var isFinished = false
-    @State var swing: Angle = .init(degrees: -10)
-    @State var floating: CGSize = .init(width: 0, height: -5)
+    
+    @State var swing:Angle = Angle(degrees: -10)
+    @State var swing2:Angle = Angle(degrees: -20)
+    @State var floating:CGSize = CGSize(width: 0, height: -10)
 
     var body: some View {
         ZStack {
@@ -18,40 +20,58 @@ struct Game: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            if isFinished {
-                Text("Finished!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2))
-            }
-            if objective.playerFinished.count == 2 && objective.playerFinished[0] && objective.playerFinished[1] {
-                Text("Finished Both!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .position(CGPoint(x: UIScreen.main.bounds.width / 2 - 20, y: UIScreen.main.bounds.height / 2 - 20))
-            }
             if isStart {
-                Button {
-                    let newIngredient = MyIngredient(name: ingredients.randomElement()!)
-                    self.game.ingredients.append(newIngredient)
-                    game.highestIdx += 1
-                } label: {
-                    Image(systemName: "plus")
-                }
+                if connectionManager.playerFinished.count == 2 {
+                    Image("bg success")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
+                    Image("happy_user")
+                        .resizable()
+                        .scaledToFit()
+                        .offset(floating)
+                        .rotationEffect(swing2)
+                        .frame(width: 200, height: 200)
+                        .onAppear {
+                            let baseAnimation = Animation.easeInOut(duration: 0.5)
+                            let repeated = baseAnimation.repeatForever(autoreverses: true)
 
-                HStack(spacing: 20) {
-                    ForEach(self.objective.menus, id: \.self) {
-                        menu in
-                        Image(menu)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
+                            withAnimation(repeated) {
+                                swing2 = Angle(degrees: 20)
+                            }
+                        }
+                        .onAppear {
+                            let baseAnimation2 = Animation.easeInOut(duration: 0.25)
+                            let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
+                            
+                            withAnimation(repeated2) {
+                                floating = CGSize(width: 0, height: 10)
+                            }
+                        }
+                } else {
+                    Button {
+                        let newIngredient = MyIngredient(name: ingredients.randomElement()!)
+                        self.game.ingredients.append(newIngredient)
+                        game.highestIdx += 1
+                    } label: {
+                        Image(systemName: "plus")
                     }
-                }
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 50)
-                if self.game.ingredients.count > 0 {
-                    ForEach(self.$game.ingredients) { ingredient in
-                        ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)
+
+                    HStack(spacing: 20) {
+                        ForEach(self.objective.menus, id: \.self) {
+                            menu in
+                            Image(menu)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                        }
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 50)
+                    if self.game.ingredients.count > 0 {
+                        ForEach(self.$game.ingredients) { ingredient in
+                            ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)
+                        }
                     }
                 }
             } else {
@@ -105,7 +125,7 @@ struct Game: View {
 #Preview {
     struct PreviewWrapper: View {
         @StateObject var model: GameService = .init()
-        @State var isStart: Bool = true
+        @State var isStart: Bool = false
         var body: some View {
             Game(isStart: isStart)
                 .environmentObject(model)

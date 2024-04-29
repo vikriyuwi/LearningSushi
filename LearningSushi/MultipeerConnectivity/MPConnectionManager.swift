@@ -27,6 +27,8 @@ class MPConnectionManager: NSObject, ObservableObject {
     @Published var receivedInviteFrom: MCPeerID?
     @Published var invitationHandler: ((Bool, MCSession?) -> Void)?
     @Published var paired: Bool = false
+    
+    @Published var playerFinished:[Bool] = []
 
     var isAvailableToPlay: Bool = false {
         didSet {
@@ -54,6 +56,11 @@ class MPConnectionManager: NSObject, ObservableObject {
         stopAdvertising()
     }
 
+    func addPlayerFinished() {
+        playerFinished.append(true)
+        print(playerFinished)
+    }
+    
     func startAdvertising() {
         nearbyServiceAdvertiser.startAdvertisingPeer()
     }
@@ -135,14 +142,16 @@ extension MPConnectionManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         if let ingredient = try? JSONDecoder().decode(MyIngredient.self, from: data) {
             DispatchQueue.main.async {
-                print(ingredient.name)
+//                print(ingredient.name)
                 if ingredient.name != "finished" {
                     self.game?.appendItem(ingredient: ingredient.name)
                     self.game?.highestIdx += 1
                 } else {
 //                  Jadi disini problemnya ketika orang selesai, harusnya playerFinished nambah value true
-                    print("kesini")
-                    self.objective?.playerFinished.append(true)
+//                    print("kesini")
+                    self.addPlayerFinished()
+//                    self.objective?.playerFinished.append(true)
+                    
                 }
             }
         }

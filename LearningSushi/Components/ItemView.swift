@@ -97,6 +97,18 @@ struct ItemView: View {
                             $0.id == self.game.ingredients[i].id
                         })
                         return
+                    } else if (ingredient.name == "nori" && game.ingredients[i].name == "wakame") || ingredient.name == "wakame" && game.ingredients[i].name == "nori" {
+                        ingredient.name = "wakame gunkan"
+                        game.ingredients.removeAll(where: {
+                            $0.id == self.game.ingredients[i].id
+                        })
+                        return
+                    } else if (ingredient.name == "nori" && game.ingredients[i].name == "tobiko") || ingredient.name == "tobiko" && game.ingredients[i].name == "nori" {
+                        ingredient.name = "tobiko gunkan"
+                        game.ingredients.removeAll(where: {
+                            $0.id == self.game.ingredients[i].id
+                        })
+                        return
                     }
                 }
             }

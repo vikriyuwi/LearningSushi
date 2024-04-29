@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var isSheetOpen = false
     @State var startGame = false
     @StateObject var game = GameService()
+    
 
     var body: some View {
         NavigationView {

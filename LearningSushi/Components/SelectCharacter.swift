@@ -10,56 +10,68 @@ import SwiftUI
 struct SelectCharacter: View {
     @Binding var isSheetOpen: Bool
     @Binding var selectedChar: String
+    
+    @State var breathScale:Double = 0.9
+    
     var body: some View {
         VStack {
             UserCharacter(imgName: selectedChar != "" ? selectedChar : "red_user", isFlying: true, selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                 .padding()
                 .background(Color.gray.opacity(0.1))
-                .cornerRadius(20)
+                .cornerRadius(40)
                 .frame(width: 120, height: 120)
+                .scaleEffect(breathScale)
+                .onAppear {
+                    let baseAnimation = Animation.spring(duration: 2)
+                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+
+                    withAnimation(repeated) {
+                        breathScale = 1
+                    }
+                }
         }
         .sheet(isPresented: $isSheetOpen) {
             VStack {
-                Text("Select your character")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding(.bottom, 12)
+//                Text("Select your character")
+//                    .font(.title)
+//                    .fontWeight(.semibold)
+//                    .padding(.bottom, 12)
                 HStack {
                     UserCharacter(imgName: "white_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "white_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
 
                     UserCharacter(imgName: "orange_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "orange_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
 
                     UserCharacter(imgName: "yellow_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "yellow_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
                 }
 
                 HStack {
                     UserCharacter(imgName: "blue_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "blue_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
                     UserCharacter(imgName: "red_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "red_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
 
                     UserCharacter(imgName: "green_user", selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
                         .padding()
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(20)
+                        .background(selectedChar == "green_user" ? Color.base : Color.black.opacity(0.1))
+                        .cornerRadius(40)
                         .frame(width: 100, height: 100)
                 }
             }

@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct Lobby: View {
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    
     @EnvironmentObject var game: GameService
     @Binding var startGame: Bool
     @State var selectedChar: String
     @StateObject var connectionManager: MPConnectionManager
     @State var isInvited = false
+    
+    @State var opacityScale:Double = 0.2
+    @State var scaleEffect:Double = 0.9
 
     init(selectedChar: String, startGame: Binding<Bool>) {
         self.selectedChar = selectedChar
@@ -26,55 +31,89 @@ struct Lobby: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
-            HStack {
-                UserCharacter(imgName: connectionManager.myPeerId.displayName, selectedChar: $selectedChar, isSheetOpen: .constant(false))
-                    .padding()
-                    .background(Color("base"))
-                    .cornerRadius(20)
-                    .frame(width: 140, height: 140)
+            VStack {
+                HStack {
+                    UserCharacter(imgName: connectionManager.myPeerId.displayName, selectedChar: $selectedChar, isSheetOpen: .constant(false))
+                        .padding()
+                        .background(Color("base"))
+                        .cornerRadius(50)
+                        .frame(width: 140, height: 140)
 
-                HStack(alignment: .bottom, spacing: 12) {
-                    if connectionManager.availablePeers.count == 0 {
-                        Text("Waiting for players...")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .padding(.bottom, 12)
-                            .foregroundColor(.black)
-                    }
-                    ForEach(connectionManager.availablePeers, id: \.self) {
-                        peer in
-                        Button(action: {
-//                            If peer character was the same, then don't play
-                            connectionManager.nearbyServiceBrowser.invitePeer(peer, to: connectionManager.session, withContext: nil, timeout: 30)
-                        }) {
-                            Image(peer.displayName)
+                    HStack(alignment: .bottom, spacing: 12) {
+                        if connectionManager.availablePeers.count == 0 {
+                            Image("white_user")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
+                                .opacity(opacityScale)
+                                .scaleEffect(scaleEffect)
+                                .onAppear {
+                                    let baseAnimation = Animation.easeInOut(duration: 2)
+                                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+
+                                    withAnimation(repeated) {
+                                        opacityScale = 0.5
+                                        scaleEffect = 1
+                                    }
+                                }
+                            Image("white_user")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .opacity(opacityScale)
+                                .scaleEffect(scaleEffect)
+                            Image("white_user")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .opacity(opacityScale)
+                                .scaleEffect(scaleEffect)
+    //                        Text("Waiting for players...")
+    //                            .font(.title)
+    //                            .fontWeight(.semibold)
+    //                            .padding(.bottom, 12)
+    //                            .foregroundColor(.black)
+                        }
+                        ForEach(connectionManager.availablePeers, id: \.self) {
+                            peer in
+                            Button(action: {
+    //                            If peer character was the same, then don't play
+                                connectionManager.nearbyServiceBrowser.invitePeer(peer, to: connectionManager.session, withContext: nil, timeout: 30)
+                            }) {
+                                Image(peer.displayName)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .frame(height: 140)
+                    .frame(maxWidth: 500)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(24)
+                    .padding(.leading, 20)
+                    .alert("Received Invitation from \(connectionManager.receivedInviteFrom?.displayName ?? "Unknown")",
+                           isPresented: $connectionManager.receivedInvite)
+                    {
+                        Button("Accept") {
+                            if let invitationHandler = connectionManager.invitationHandler {
+                                invitationHandler(true, connectionManager.session)
+                            }
+                        }
+                        Button("Reject") {
+                            if let invitationHandler = connectionManager.invitationHandler {
+                                invitationHandler(false, nil)
+                            }
                         }
                     }
-                    Spacer()
                 }
-                .padding()
-                .frame(height: 140)
-                .frame(maxWidth: 500)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(24)
-                .padding(.leading, 20)
-                .alert("Received Invitation from \(connectionManager.receivedInviteFrom?.displayName ?? "Unknown")",
-                       isPresented: $connectionManager.receivedInvite)
-                {
-                    Button("Accept") {
-                        if let invitationHandler = connectionManager.invitationHandler {
-                            invitationHandler(true, connectionManager.session)
-                        }
-                    }
-                    Button("Reject") {
-                        if let invitationHandler = connectionManager.invitationHandler {
-                            invitationHandler(false, nil)
-                        }
-                    }
+                Button {
+                    self.mode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "arrow.left")
                 }
+                .buttonStyle(.bordered)
+                .padding(.top,20)
             }
+            .offset(y: 32)
         }
         .onAppear {
             connectionManager.setup(game: game)
@@ -94,8 +133,20 @@ struct Lobby: View {
                 .environmentObject(game)
                 .environmentObject(connectionManager)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
+
+//#Preview {
+//    struct PreviewWrapper: View {
+//        var body: some View {
+//            Lobby(selectedChar: "red_user", startGame: .constant(false))
+//                .environmentObject(MPConnectionManager(yourName: "Sample"))
+//                .environmentObject(GameService())
+//        }
+//    }
+//    return PreviewWrapper()
+//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

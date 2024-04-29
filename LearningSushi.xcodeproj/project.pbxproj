@@ -330,10 +330,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = 49V8Q5W76J;
+				DEVELOPMENT_TEAM = CK8M57PVR8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sushi Rumble";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Sushi need access to your local network to connect you and your friend";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -363,10 +364,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = 49V8Q5W76J;
+				DEVELOPMENT_TEAM = CK8M57PVR8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sushi Rumble";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Sushi need access to your local network to connect you and your friend";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

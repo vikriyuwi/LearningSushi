@@ -58,16 +58,10 @@ struct Lobby: View {
                                 .aspectRatio(contentMode: .fit)
                                 .opacity(opacityScale)
                                 .scaleEffect(scaleEffect)
-    //                        Text("Waiting for players...")
-    //                            .font(.title)
-    //                            .fontWeight(.semibold)
-    //                            .padding(.bottom, 12)
-    //                            .foregroundColor(.black)
                         }
                         ForEach(connectionManager.availablePeers, id: \.self) {
                             peer in
                             Button(action: {
-    //                            If peer character was the same, then don't play
                                 connectionManager.nearbyServiceBrowser.invitePeer(peer, to: connectionManager.session, withContext: nil, timeout: 30)
                             }) {
                                 Image(peer.displayName)
@@ -129,17 +123,6 @@ struct Lobby: View {
         .navigationBarBackButtonHidden(true)
     }
 }
-
-//#Preview {
-//    struct PreviewWrapper: View {
-//        var body: some View {
-//            Lobby(selectedChar: "red_user", startGame: .constant(false))
-//                .environmentObject(MPConnectionManager(yourName: "Sample"))
-//                .environmentObject(GameService())
-//        }
-//    }
-//    return PreviewWrapper()
-//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

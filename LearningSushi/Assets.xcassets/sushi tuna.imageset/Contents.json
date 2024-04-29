@@ -1,8 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "sushi — tuna.png",
-      "idiom" : "universal"
+      "filename" : "plate tuna.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

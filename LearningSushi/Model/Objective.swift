@@ -7,22 +7,20 @@
 
 import Foundation
 
-let menu = ["sushi salmon","sushi shrimp","sushi tamago","sushi tuna","wakame gunkan","tobiko gunkan"]
+let menu = ["sushi salmon", "sushi shrimp", "sushi tamago", "sushi tuna", "wakame nori", "tobiko nori"]
 
-struct Objective{
-    
+struct Objective {
     var menus: [String] = []
     var ingredients: [String] = []
     
-    init(){
+    init() {
         let temp = generateMenu()
         self.menus = temp
         self.ingredients = generateIngredient(objectiveMenu: temp)
     }
     
     func generateMenu() -> [String] {
-        
-        var objectiveTemp : [String] = []
+        var objectiveTemp: [String] = []
         
         for _ in 0 ..< 5 {
             objectiveTemp.append(menu.randomElement()!)
@@ -30,18 +28,18 @@ struct Objective{
         return objectiveTemp
     }
     
-    func generateIngredient(objectiveMenu:[String]) -> [String] {
-        var objectiveIngredient : [String] = []
+    func generateIngredient(objectiveMenu: [String]) -> [String] {
+        var objectiveIngredient: [String] = []
         
         for i in 0 ..< objectiveMenu.count {
             let stringSpliced = objectiveMenu[i].split(separator: " ")
-            for i in 0..<2 {
+            for i in 0 ..< 2 {
                 let ingredient = stringSpliced[i] == "sushi" ? "rice" : stringSpliced[i]
                 objectiveIngredient.append(String(ingredient))
             }
         }
         
-        print(objectiveIngredient)
+//        print("\(objectiveIngredient) ini objective")
 
         return objectiveIngredient
     }

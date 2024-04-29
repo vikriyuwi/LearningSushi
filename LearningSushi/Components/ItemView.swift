@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 struct ItemView: View {
+    @Binding var objective: Objective
     @EnvironmentObject var game: GameService
     @EnvironmentObject var connectionManager: MPConnectionManager
     @State var zidx: Double
@@ -16,8 +17,10 @@ struct ItemView: View {
             .position(ingredient.loc)
             .zIndex(zidx)
             .onAppear {
+                let screenHeight = UIScreen.main.bounds.size.height
+                let yLoc: Double = screenHeight < 450 ? .random(in: 100 ... screenHeight - 70) : .random(in: 100 ... screenHeight - 300)
                 withAnimation(Animation.spring(duration: 1)) {
-                    ingredient.loc = CGPoint(x: ingredient.loc.x, y: .random(in: 100...UIScreen.main.bounds.size.height-300))
+                    ingredient.loc = CGPoint(x: ingredient.loc.x, y: yLoc)
                 }
             }
             .transition(.scale)
@@ -29,13 +32,11 @@ struct ItemView: View {
                         if zidx < game.highestIdx {
                             game.highestIdx += 1
                             zidx = game.highestIdx
-                            print("idx: \(zidx)")
-                            print("highest:  \(game.highestIdx)")
                         }
                     }
                     .onEnded { _ in
-                        checkUpSide()
                         checkCollisions()
+                        checkSide()
                     }
             )
     }
@@ -45,12 +46,32 @@ struct ItemView: View {
         return words.count >= 2
     }
     
-    func checkUpSide() {
+    func checkSide() {
+        if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
+            // menu completion side
+            checkObjective()
+            return
+        }
+        
         if ingredient.loc.y < 100 {
             sendItem()
+            return
         }
     }
     
+    func checkObjective() {
+        if let index = objective.menus.firstIndex(of: ingredient.name) {
+            objective.menus[index] += " check"
+            game.ingredients.removeAll(where: {
+                $0.id == ingredient.id
+            })
+            
+            return
+        } else {
+            ingredient.loc.x = UIScreen.main.bounds.width / 2
+        }
+    }
+
     func sendItem() {
         withAnimation(Animation.spring(duration: 1)) {
             ingredient.loc.y = -150
@@ -59,11 +80,11 @@ struct ItemView: View {
             self.game.ingredients.removeAll(where: {
                 $0.id == ingredient.id
             })
-            print(self.game.ingredients)
         }
     }
     
     func checkCollisions() {
+        print("Masuk kesini")
         let thisRect = CGRect(origin: ingredient.loc, size: CGSize(width: 150, height: 150))
         
         for i in 0 ..< game.ingredients.count {

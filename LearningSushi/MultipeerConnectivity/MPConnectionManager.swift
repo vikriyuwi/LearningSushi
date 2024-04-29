@@ -131,6 +131,7 @@ extension MPConnectionManager: MCSessionDelegate {
         if let ingredient = try? JSONDecoder().decode(MyIngredient.self, from: data) {
             DispatchQueue.main.async {
                 self.game?.appendItem(ingredient: ingredient.name)
+                self.game?.highestIdx += 1
             }
         }
     }

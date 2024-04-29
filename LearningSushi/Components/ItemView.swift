@@ -35,8 +35,16 @@ struct ItemView: View {
                         }
                     }
                     .onEnded { _ in
-                        checkCollisions()
-                        checkSide()
+                        if checkCollisions() == false {
+                            print("ga cocok")
+                            if checkSide() {
+                                print("bisa send")
+                            } else {
+                                print("ga bisa send")
+                            }
+                        } else {
+                            print("cocok")
+                        }
                     }
             )
     }
@@ -46,20 +54,20 @@ struct ItemView: View {
         return words.count >= 2
     }
     
-    func checkSide() {
-        if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
-            // menu completion side
-            checkObjective()
-            return
-        }
-        
+    func checkSide() -> Bool {
         if ingredient.loc.y < 100 {
             sendItem()
-            return
+            return true
+        } else if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
+            checkObjective()
+            return true
+        } else {
+            return false
         }
     }
     
     func checkObjective() {
+        
         if let index = objective.menus.firstIndex(of: ingredient.name) {
             objective.menus[index] += " check"
             game.ingredients.removeAll(where: {
@@ -83,8 +91,8 @@ struct ItemView: View {
         }
     }
     
-    func checkCollisions() {
-        print("Masuk kesini")
+    func checkCollisions() -> Bool {
+//        print("Masuk kesini")
         let thisRect = CGRect(origin: ingredient.loc, size: CGSize(width: 150, height: 150))
         
         for i in 0 ..< game.ingredients.count {
@@ -99,40 +107,44 @@ struct ItemView: View {
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "shrimp") || (ingredient.name == "shrimp" && game.ingredients[i].name == "rice") {
                         ingredient.name = "sushi shrimp"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tamago") || ingredient.name == "tamago" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tamago"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tuna") || ingredient.name == "tuna" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tuna"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "wakame") || ingredient.name == "wakame" && game.ingredients[i].name == "nori" {
                         ingredient.name = "wakame nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "tobiko") || ingredient.name == "tobiko" && game.ingredients[i].name == "nori" {
                         ingredient.name = "tobiko nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        return
+                        return true
+                    } else {
+                        return false
                     }
                 }
             }
         }
+        print("game ingredient ga ada")
+        return false
     }
 }

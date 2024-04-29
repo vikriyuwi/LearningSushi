@@ -3,6 +3,7 @@ import SwiftUI
 struct Game: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
     @EnvironmentObject var game: GameService
+    
     let ingredients = ["salmon", "shrimp", "tamago", "tuna", "rice", "rice", "rice", "rice", "wakame", "tobiko", "nori", "nori"]
 
     @State var objective = Objective()
@@ -76,14 +77,15 @@ struct Game: View {
         .ignoresSafeArea()
         .onAppear {
             print(game.ingredients)
-            for _ in 0 ..< 5 {
-                let randIdx: Int = .random(in: 0 ... objective.ingredients.count - 1)
-
-                let tempIngredient = MyIngredient(name: objective.ingredients[randIdx])
-
-                connectionManager.send(ingredient: tempIngredient)
-                objective.ingredients.remove(at: randIdx)
-            }
+//            print(game.ingredients)
+//            for _ in 0 ..< 5 {
+//                let randIdx: Int = .random(in: 0 ... objective.ingredients.count - 1)
+//
+//                let tempIngredient = MyIngredient(name: objective.ingredients[randIdx])
+//
+//                connectionManager.send(ingredient: tempIngredient)
+//                objective.ingredients.remove(at: randIdx)
+//            }
         }
     }
 }

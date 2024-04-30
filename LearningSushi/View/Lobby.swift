@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct Lobby: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
@@ -8,6 +9,7 @@ struct Lobby: View {
     @State var selectedChar: String
     @StateObject var connectionManager: MPConnectionManager
     @State var isInvited = false
+    @State private var audioPlayer2: AVAudioPlayer?
 
     @State var opacityScale: Double = 0.2
     @State var scaleEffect: Double = 0.9
@@ -68,6 +70,16 @@ struct Lobby: View {
                             peer in
                             Button(action: {
                                 self.connectionManager.nearbyServiceBrowser.invitePeer(peer, to: self.connectionManager.session, withContext: nil, timeout: 30)
+                                if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                                    do {
+                                        audioPlayer2 = try AVAudioPlayer(contentsOf: url)
+                                        audioPlayer2?.play()
+                                    } catch {
+                                        print("Error: \(error.localizedDescription)")
+                                    }
+                                } else {
+                                    print("Error: file not found")
+                                }
                             }) {
                                 Image(peer.displayName)
                                     .resizable()
@@ -99,6 +111,16 @@ struct Lobby: View {
                 }
                 Button {
                     self.dismissed()
+                    if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                        do {
+                            audioPlayer2 = try AVAudioPlayer(contentsOf: url)
+                            audioPlayer2?.play()
+                        } catch {
+                            print("Error: \(error.localizedDescription)")
+                        }
+                    } else {
+                        print("Error: file not found")
+                    }
                 } label: {
                     Image(systemName: "arrow.left")
                 }
@@ -108,6 +130,16 @@ struct Lobby: View {
             .offset(y: 32)
         }
         .onAppear {
+            if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                                        do {
+                                            audioPlayer2 = try AVAudioPlayer(contentsOf: url)
+                                            audioPlayer2?.play()
+                                        } catch {
+                                            print("Error: \(error.localizedDescription)")
+                                        }
+                                    } else {
+                                        print("Error: file not found")
+                                    }
             self.connectionManager.setupGame(game: self.game)
             self.connectionManager.isAvailableToPlay = true
             self.connectionManager.startBrowsing()

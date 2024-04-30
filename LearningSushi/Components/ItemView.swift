@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 import SwiftUI
 
 struct ItemView: View {
@@ -8,6 +9,7 @@ struct ItemView: View {
     @State var zidx: Double
     @Binding var ingredient: MyIngredient
     @Binding var isFinished: Bool
+    @State var audioPlayer: AVAudioPlayer?
     
     var body: some View {
         Image(ingredient.name)
@@ -105,36 +107,101 @@ struct ItemView: View {
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "shrimp") || (ingredient.name == "shrimp" && game.ingredients[i].name == "rice") {
                         ingredient.name = "sushi shrimp"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
+
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tamago") || ingredient.name == "tamago" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tamago"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
+
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tuna") || ingredient.name == "tuna" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tuna"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
+
                         return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "wakame") || ingredient.name == "wakame" && game.ingredients[i].name == "nori" {
                         ingredient.name = "wakame nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
+
                         return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "tobiko") || ingredient.name == "tobiko" && game.ingredients[i].name == "nori" {
                         ingredient.name = "tobiko nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
+                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error: \(error.localizedDescription)")
+                            }
+                        } else {
+                            print("Error: file not found")
+                        }
+
                         return true
                     } else {
                         return false

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4C0E53682BDF5A81000CD6BF /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0E53672BDF5A81000CD6BF /* Objective.swift */; };
+		4CB97E812BE0A01700A5BF23 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E7E2BE0A01700A5BF23 /* background.mp3 */; };
+		4CB97E822BE0A01700A5BF23 /* click 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */; };
 		B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */; };
 		B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF8712BD8F40B0030F101 /* ContentView.swift */; };
 		B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B26DF8732BD8F40C0030F101 /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		4C0E53672BDF5A81000CD6BF /* Objective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objective.swift; sourceTree = "<group>"; };
+		4CB97E7E2BE0A01700A5BF23 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
+		4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "click 1.mp3"; sourceTree = "<group>"; };
 		B26DF86C2BD8F40B0030F101 /* LearningSushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningSushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSushiApp.swift; sourceTree = "<group>"; };
 		B26DF8712BD8F40B0030F101 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +55,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4CB97E802BE0A01700A5BF23 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				4CB97E7E2BE0A01700A5BF23 /* background.mp3 */,
+				4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
 		B26DF8632BD8F40B0030F101 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +83,7 @@
 		B26DF86E2BD8F40B0030F101 /* LearningSushi */ = {
 			isa = PBXGroup;
 			children = (
+				4CB97E802BE0A01700A5BF23 /* Sound */,
 				F6876C922BDEA204000A8AAD /* MultipeerConnectivity */,
 				F6876C7F2BDEA144000A8AAD /* Components */,
 				F6876C7E2BDEA10C000A8AAD /* Model */,
@@ -178,7 +192,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CB97E812BE0A01700A5BF23 /* background.mp3 in Resources */,
 				B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */,
+				4CB97E822BE0A01700A5BF23 /* click 1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +350,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = CK8M57PVR8;
+				DEVELOPMENT_TEAM = KK835KRLS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;
@@ -368,7 +384,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LearningSushi/Preview Content\"";
-				DEVELOPMENT_TEAM = CK8M57PVR8;
+				DEVELOPMENT_TEAM = KK835KRLS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearningSushi/Info.plist;

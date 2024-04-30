@@ -4,7 +4,7 @@ struct Game: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
     @EnvironmentObject var game: GameService
 
-    let ingredients = ["salmon", "shrimp", "tamago", "tuna", "rice", "rice", "rice", "rice", "wakame", "tobiko", "nori", "nori"]
+    let ingredients = ["salmon", "shrimp", "tamago", "tuna", "rice", "rice", "rice", "wakame", "tobiko", "nori", "nori"]
 
     @State var objective = Objective()
     @State var isStart = false
@@ -18,7 +18,11 @@ struct Game: View {
     @State private var munculTimer: Bool = false
     @State var widthCountDown: CGFloat = 0
     @State var colorCountDown: Color = .green
+    
     @State var isButtonEnabled = true
+    var buttonWidth = 60
+    @State var timerTrim:CGFloat = 0
+    
     var screenHeight = UIScreen.main.bounds.height
     var dismissed: () -> Void
 
@@ -126,21 +130,42 @@ struct Game: View {
                     Button {
                         guard isButtonEnabled else { return }
                         isButtonEnabled = false
-
+                        
                         let newIngredient = MyIngredient(name: ingredients.randomElement()!)
                         self.game.ingredients.append(newIngredient)
                         game.highestIdx += 1
-
+                        
+                        withAnimation(Animation.easeIn(duration: 2)) {
+                            timerTrim = 1
+                        }
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             isButtonEnabled = true
+                            timerTrim = 0
                         }
+                        
 
                     } label: {
-                        Image(systemName: "plus")
-                            .opacity(isButtonEnabled ? 1 : 0.2)
+                        ZStack {
+                            Image("add_button")
+                                .resizable()
+                                .scaledToFit()
+                                .scaleEffect(isButtonEnabled ? 1 : 0)
+                                .frame(width: CGFloat(buttonWidth))
+                            Circle()
+                                .trim(from: 0, to: timerTrim)
+                                .stroke(style: StrokeStyle(lineWidth: CGFloat(buttonWidth/4), lineCap: .round, lineJoin: .round))
+                                .background(Color.clear)
+                                .rotationEffect(Angle(degrees: -90))
+                                .scaleEffect(isButtonEnabled ? 0 : 1)
+                                
+                        }
+                        .frame(width: CGFloat(buttonWidth), height: CGFloat(buttonWidth))
                     }
-                    .controlSize(.large)
-                    .buttonStyle(.bordered)
+                    .position(
+                        x: UIScreen.main.bounds.width - CGFloat(buttonWidth) - 16,
+                        y: UIScreen.main.bounds.height - CGFloat(buttonWidth) - 116
+                    )
 
                     HStack(spacing: 20) {
                         ForEach(self.objective.menus, id: \.self) {
@@ -151,7 +176,7 @@ struct Game: View {
                                 .frame(width: 80, height: 80)
                         }
                     }
-                    .position(x: UIScreen.main.bounds.width / 2, y: screenHeight < 450 ? screenHeight : (screenHeight - 80))
+                    .position(x: UIScreen.main.bounds.width / 2, y: screenHeight < 450 ? screenHeight : (screenHeight - 100))
                     if self.game.ingredients.count > 0 {
                         ForEach(self.$game.ingredients) { ingredient in
                             ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)

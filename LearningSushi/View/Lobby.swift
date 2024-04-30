@@ -122,10 +122,11 @@ struct Lobby: View {
                         print("Error: file not found")
                     }
                 } label: {
-                    Image(systemName: "arrow.left")
+                    Image("back_button")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 50)
                 }
-                .buttonStyle(.bordered)
-                .padding(.top, 20)
             }
             .offset(y: 32)
         }

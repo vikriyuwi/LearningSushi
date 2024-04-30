@@ -65,6 +65,7 @@ class MPConnectionManager: NSObject, ObservableObject {
     func addPlayerFailed() {
         playerFinished.append(false)
         print(playerFinished)
+        print("Finished")
     }
 
     func startAdvertising() {
@@ -151,7 +152,6 @@ extension MPConnectionManager: MCSessionDelegate {
 //                print(ingredient.name)
                 if ingredient.name == "finished" {
                     self.addPlayerFinished()
-
                 } else if ingredient.name == "failed" {
                     self.addPlayerFailed()
                 } else if ingredient.name == "end" {

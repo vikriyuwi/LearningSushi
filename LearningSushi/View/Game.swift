@@ -55,6 +55,19 @@ struct Game: View {
                                         munculTimer = false
                                     }
                                 }
+                                .onTapGesture {
+                                    connectionManager.send(ingredient: MyIngredient(name: "end"))
+                                    connectionManager.isPlayAgain = true
+                                }
+//                            Button(action: {
+//                                connectionManager.send(ingredient: MyIngredient(name: "end"))
+//                                connectionManager.isPlayAgain = true
+//                            }) {
+//                                Image(systemName: "repeat")
+//                                    .buttonStyle(.bordered)
+//                                    .padding(.top, 20)
+//                                    .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 80))
+//                            }
                             // reset button
                             Spacer()
                         }
@@ -91,20 +104,24 @@ struct Game: View {
                                         munculTimer = false
                                     }
                                 }
+                                .onTapGesture {
+                                    connectionManager.send(ingredient: MyIngredient(name: "end"))
+                                    connectionManager.isPlayAgain = true
+                                }
                             // reset button
+//                            Button(action: {
+//                                connectionManager.send(ingredient: MyIngredient(name: "end"))
+//                                connectionManager.isPlayAgain = true
+//                            }) {
+//                                Image(systemName: "repeat")
+//                                    .buttonStyle(.bordered)
+//                                    .padding(.top, 20)
+//                                    .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 80))
+//                            }
                             Spacer()
                         }
                     }
 
-                    Button(action: {
-                        connectionManager.send(ingredient: MyIngredient(name: "end"))
-                        connectionManager.isPlayAgain = true
-                    }) {
-                        Image(systemName: "repeat")
-                            .buttonStyle(.bordered)
-                            .padding(.top, 20)
-                            .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 80))
-                    }
                 } else {
                     Button {
                         guard isButtonEnabled else { return }
@@ -134,7 +151,7 @@ struct Game: View {
                                 .frame(width: 80, height: 80)
                         }
                     }
-                    .position(x: UIScreen.main.bounds.width / 2, y: screenHeight < 450 ? (screenHeight) : (screenHeight - 80))
+                    .position(x: UIScreen.main.bounds.width / 2, y: screenHeight < 450 ? screenHeight : (screenHeight - 80))
                     if self.game.ingredients.count > 0 {
                         ForEach(self.$game.ingredients) { ingredient in
                             ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)
@@ -229,22 +246,3 @@ struct Game: View {
         }
     }
 }
-
-// #Preview {
-//    struct PreviewWrapper: View {
-//        @StateObject var model: GameService = .init()
-//        @State var isStart: Bool = false
-//        var body: some View {
-//            Game(isStart: isStart)
-//                .environmentObject(model)
-//        }
-//    }
-//    return PreviewWrapper()
-// }
-
-// struct Game_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Game()
-//            .environmentObject(GameService())
-//    }
-// }

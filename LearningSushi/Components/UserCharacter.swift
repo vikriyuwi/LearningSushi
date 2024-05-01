@@ -11,7 +11,7 @@ struct UserCharacter: View {
         Button(action: {
             selectedChar = imgName
             isSheetOpen.toggle()
-
+            Sound.playClick()
         }) {
             Image(imgName)
                 .resizable()

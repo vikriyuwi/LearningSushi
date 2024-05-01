@@ -30,17 +30,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            if let url = Bundle.main.url(forResource: "background", withExtension: "mp3") {
-                                        do {
-                                            audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                            audioPlayer?.numberOfLoops = -1
-                                            audioPlayer?.play()
-                                        } catch {
-                                            print("Error: \(error.localizedDescription)")
-                                        }
-                                    } else {
-                                        print("Error: file not found")
-                                    }
+            Sound.playBackground()
             print(UIScreen.main.bounds.height)
         }
         .environmentObject(game)

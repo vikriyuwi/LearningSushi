@@ -10,6 +10,9 @@
 		4C0E53682BDF5A81000CD6BF /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0E53672BDF5A81000CD6BF /* Objective.swift */; };
 		4CB97E812BE0A01700A5BF23 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E7E2BE0A01700A5BF23 /* background.mp3 */; };
 		4CB97E822BE0A01700A5BF23 /* click 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */; };
+		4CB97E862BE2777400A5BF23 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB97E852BE2777400A5BF23 /* Sound.swift */; };
+		4CB97E892BE27C8E00A5BF23 /* losing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E872BE27C8E00A5BF23 /* losing.mp3 */; };
+		4CB97E8A2BE27C8E00A5BF23 /* winning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E882BE27C8E00A5BF23 /* winning.mp3 */; };
 		B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */; };
 		B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF8712BD8F40B0030F101 /* ContentView.swift */; };
 		B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B26DF8732BD8F40C0030F101 /* Assets.xcassets */; };
@@ -28,6 +31,9 @@
 		4C0E53672BDF5A81000CD6BF /* Objective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objective.swift; sourceTree = "<group>"; };
 		4CB97E7E2BE0A01700A5BF23 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
 		4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "click 1.mp3"; sourceTree = "<group>"; };
+		4CB97E852BE2777400A5BF23 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		4CB97E872BE27C8E00A5BF23 /* losing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = losing.mp3; sourceTree = "<group>"; };
+		4CB97E882BE27C8E00A5BF23 /* winning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winning.mp3; sourceTree = "<group>"; };
 		B26DF86C2BD8F40B0030F101 /* LearningSushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningSushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSushiApp.swift; sourceTree = "<group>"; };
 		B26DF8712BD8F40B0030F101 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +64,8 @@
 		4CB97E802BE0A01700A5BF23 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				4CB97E872BE27C8E00A5BF23 /* losing.mp3 */,
+				4CB97E882BE27C8E00A5BF23 /* winning.mp3 */,
 				4CB97E7E2BE0A01700A5BF23 /* background.mp3 */,
 				4CB97E7F2BE0A01700A5BF23 /* click 1.mp3 */,
 			);
@@ -109,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				F6876C802BDEA155000A8AAD /* Ingredient.swift */,
+				4CB97E852BE2777400A5BF23 /* Sound.swift */,
 				F6876C822BDEA168000A8AAD /* GameService.swift */,
 				F6876C842BDEA181000A8AAD /* MyIngredient.swift */,
 				4C0E53672BDF5A81000CD6BF /* Objective.swift */,
@@ -192,9 +201,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CB97E892BE27C8E00A5BF23 /* losing.mp3 in Resources */,
 				4CB97E812BE0A01700A5BF23 /* background.mp3 in Resources */,
 				B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */,
 				4CB97E822BE0A01700A5BF23 /* click 1.mp3 in Resources */,
+				4CB97E8A2BE27C8E00A5BF23 /* winning.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CB97E862BE2777400A5BF23 /* Sound.swift in Sources */,
 				B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */,
 				F6876C8F2BDEA1D7000A8AAD /* Game.swift in Sources */,
 				F6876C872BDEA191000A8AAD /* ItemView.swift in Sources */,

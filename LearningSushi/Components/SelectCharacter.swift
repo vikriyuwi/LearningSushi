@@ -69,6 +69,9 @@ struct SelectCharacter: View {
                 }
             }
             .padding(60)
+            .onAppear(){
+                Sound.playClick()
+            }
         }
     }
 }

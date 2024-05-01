@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct Game: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
@@ -9,6 +10,10 @@ struct Game: View {
     @State var objective = Objective()
     @State var isStart = false
     @State var isFinished = false
+    @State var isPlaying = true
+    
+    @State var isDelete = false
+    @State var isDelete2 = false
 
     @State var swing: Angle = .init(degrees: -10)
     @State var swing2: Angle = .init(degrees: -20)
@@ -18,6 +23,8 @@ struct Game: View {
     @State private var munculTimer: Bool = false
     @State var widthCountDown: CGFloat = 0
     @State var colorCountDown: Color = .green
+    
+    @State private var audioPlayer: AVAudioPlayer?
     
     @State var isButtonEnabled = true
     var buttonWidth = 60
@@ -40,6 +47,11 @@ struct Game: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
+                            .onAppear(){
+                                isButtonEnabled = false
+                                Sound.playLoseSound()
+                                isPlaying = false
+                            }
                         VStack {
                             Spacer()
                             Image("sad_user")
@@ -81,6 +93,11 @@ struct Game: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
+                            .onAppear(){
+                                isButtonEnabled = false
+                                Sound.playWinSound()
+                                isPlaying = false
+                            }
                         VStack {
                             Spacer()
                             Image("happy_user")
@@ -129,6 +146,11 @@ struct Game: View {
                 } else {
                     Button {
                         guard isButtonEnabled else { return }
+                        
+                        if connectionManager.playerFinished.count == 2 {
+                            return
+                        }
+                        
                         isButtonEnabled = false
                         
                         let newIngredient = MyIngredient(name: ingredients.randomElement()!)
@@ -140,6 +162,9 @@ struct Game: View {
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            if connectionManager.playerFinished.count == 2 {
+                                return
+                            }
                             isButtonEnabled = true
                             timerTrim = 0
                         }
@@ -179,9 +204,17 @@ struct Game: View {
                     .position(x: UIScreen.main.bounds.width / 2, y: screenHeight < 450 ? screenHeight : (screenHeight - 100))
                     if self.game.ingredients.count > 0 {
                         ForEach(self.$game.ingredients) { ingredient in
-                            ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished)
+                            ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished, isDelete: $isDelete, isDelete2: $isDelete2, isPlaying: $isPlaying)
                         }
                     }
+                    Image(systemName: "trash")
+                                    .font(.system(size: 40))
+                                    .position(isDelete ? CGPoint(x: 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: -100, y: UIScreen.main.bounds.height / 2))
+                                    .animation(.easeIn(duration: 0.1))
+                    Image(systemName: "trash")
+                                    .font(.system(size: 40))
+                                    .position(isDelete2 ? CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: UIScreen.main.bounds.width + 100, y: UIScreen.main.bounds.height / 2))
+                                    .animation(.easeIn(duration: 0.1))
                 }
             } else {
                 Image("white_user")
@@ -211,6 +244,8 @@ struct Game: View {
                         Task {
                             try? await Task.sleep(for: .seconds(3))
                             isStart = true
+                            Sound.stopBackground()
+                            Sound.playBackground()
                         }
                     }
                     .onAppear {
@@ -221,6 +256,7 @@ struct Game: View {
 
                             // timer
                             try? await Task.sleep(for: .seconds(90))
+                            isButtonEnabled = false
                             if connectionManager.playerFinished.count < 2 {
                                 connectionManager.addPlayerFailed()
                                 connectionManager.send(ingredient: MyIngredient(name: "failed"))

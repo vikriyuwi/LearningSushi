@@ -70,16 +70,7 @@ struct Lobby: View {
                             peer in
                             Button(action: {
                                 self.connectionManager.nearbyServiceBrowser.invitePeer(peer, to: self.connectionManager.session, withContext: nil, timeout: 30)
-                                if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                                    do {
-                                        audioPlayer2 = try AVAudioPlayer(contentsOf: url)
-                                        audioPlayer2?.play()
-                                    } catch {
-                                        print("Error: \(error.localizedDescription)")
-                                    }
-                                } else {
-                                    print("Error: file not found")
-                                }
+                                Sound.playClick()
                             }) {
                                 Image(peer.displayName)
                                     .resizable()
@@ -97,30 +88,21 @@ struct Lobby: View {
                     .alert("Received Invitation from \(self.connectionManager.receivedInviteFrom?.displayName ?? "Unknown")",
                            isPresented: self.$connectionManager.receivedInvite)
                     {
-                        Button("Accept") {
-                            if let invitationHandler = connectionManager.invitationHandler {
-                                invitationHandler(true, self.connectionManager.session)
-                            }
-                        }
                         Button("Reject") {
                             if let invitationHandler = connectionManager.invitationHandler {
                                 invitationHandler(false, nil)
+                            }
+                        }
+                        Button("Accept") {
+                            if let invitationHandler = connectionManager.invitationHandler {
+                                invitationHandler(true, self.connectionManager.session)
                             }
                         }
                     }
                 }
                 Button {
                     self.dismissed()
-                    if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                        do {
-                            audioPlayer2 = try AVAudioPlayer(contentsOf: url)
-                            audioPlayer2?.play()
-                        } catch {
-                            print("Error: \(error.localizedDescription)")
-                        }
-                    } else {
-                        print("Error: file not found")
-                    }
+                    Sound.playClick()
                 } label: {
                     Image(systemName: "arrow.left")
                 }
@@ -130,16 +112,7 @@ struct Lobby: View {
             .offset(y: 32)
         }
         .onAppear {
-            if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                                        do {
-                                            audioPlayer2 = try AVAudioPlayer(contentsOf: url)
-                                            audioPlayer2?.play()
-                                        } catch {
-                                            print("Error: \(error.localizedDescription)")
-                                        }
-                                    } else {
-                                        print("Error: file not found")
-                                    }
+            Sound.playClick()
             self.connectionManager.setupGame(game: self.game)
             self.connectionManager.isAvailableToPlay = true
             self.connectionManager.startBrowsing()

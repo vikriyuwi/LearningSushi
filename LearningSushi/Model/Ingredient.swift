@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 
 var ingredientType = [
     1: "sushi",
@@ -13,7 +14,5 @@ var ingredientType = [
 struct Ingredient {
     var id: Int
     var name: String
-    
-   
-    
 }
+

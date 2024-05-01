@@ -9,6 +9,9 @@ struct ItemView: View {
     @State var zidx: Double
     @Binding var ingredient: MyIngredient
     @Binding var isFinished: Bool
+    @Binding var isDelete: Bool
+    @Binding var isDelete2: Bool
+    @Binding var isPlaying: Bool
     @State var audioPlayer: AVAudioPlayer?
     
     var body: some View {
@@ -31,16 +34,32 @@ struct ItemView: View {
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
+                        if !isPlaying{
+                            return
+                        }
                         ingredient.loc = gesture.location
                         if zidx < game.highestIdx {
                             game.highestIdx += 1
                             zidx = game.highestIdx
                         }
+                        if gesture.location.x < 200 {
+                            isDelete = true
+                        } else if gesture.location.x > UIScreen.main.bounds.width - 200 {
+                            isDelete2 = true
+                        } else {
+                            isDelete = false
+                            isDelete2 = false
+                        }
                     }
                     .onEnded { _ in
+                        if !isPlaying{
+                            return
+                        }
                         if checkCollisions() == false {
                             checkSide()
                         }
+                        isDelete = false
+                        isDelete2 = false
                     }
             )
     }
@@ -51,20 +70,39 @@ struct ItemView: View {
     }
     
     func checkSide() {
+        if !isPlaying{
+            return
+        }
         if ingredient.loc.y < 100 {
             sendItem()
-        } else if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
+        } else if ingredient.loc.y > UIScreen.main.bounds.height - 100 {
             checkObjective()
+        } else if ingredient.loc.x < 100 || ingredient.loc.x > UIScreen.main.bounds.width - 100 {
+            removeItem()
         }
     }
     
+    func removeItem() {
+        if !isPlaying{
+            return
+        }
+        game.ingredients.removeAll(where: {
+            $0.id == ingredient.id
+        })
+        isDelete = false
+        isDelete2 = false
+    }
+    
     func checkObjective() {
+        if !isPlaying{
+            return
+        }
         if let index = objective.menus.firstIndex(of: ingredient.name) {
             objective.menus[index] += " check"
             game.ingredients.removeAll(where: {
                 $0.id == ingredient.id
             })
-            
+            Sound.playClick()
             if objective.menus.allSatisfy({
                 $0.contains("check")
             }) {
@@ -78,7 +116,7 @@ struct ItemView: View {
             
             return
         } else {
-            ingredient.loc.x = UIScreen.main.bounds.width / 2
+            ingredient.loc.y = UIScreen.main.bounds.height / 2
         }
     }
 
@@ -107,101 +145,42 @@ struct ItemView: View {
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
+                        Sound.playClick()
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "shrimp") || (ingredient.name == "shrimp" && game.ingredients[i].name == "rice") {
                         ingredient.name = "sushi shrimp"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
-
+                        Sound.playClick()
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tamago") || ingredient.name == "tamago" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tamago"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
-
+                        Sound.playClick()
                         return true
                     } else if (ingredient.name == "rice" && game.ingredients[i].name == "tuna") || ingredient.name == "tuna" && game.ingredients[i].name == "rice" {
                         ingredient.name = "sushi tuna"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
-
+                        Sound.playClick()
                         return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "wakame") || ingredient.name == "wakame" && game.ingredients[i].name == "nori" {
                         ingredient.name = "wakame nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
-
+                        Sound.playClick()
                         return true
                     } else if (ingredient.name == "nori" && game.ingredients[i].name == "tobiko") || ingredient.name == "tobiko" && game.ingredients[i].name == "nori" {
                         ingredient.name = "tobiko nori"
                         game.ingredients.removeAll(where: {
                             $0.id == self.game.ingredients[i].id
                         })
-                        if let url = Bundle.main.url(forResource: "click 1", withExtension: "mp3") {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error: \(error.localizedDescription)")
-                            }
-                        } else {
-                            print("Error: file not found")
-                        }
-
+                        Sound.playClick()
                         return true
                     } else {
                         return false

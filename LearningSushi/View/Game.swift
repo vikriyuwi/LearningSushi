@@ -84,7 +84,7 @@ struct Game: View {
 //                                    .padding(.top, 20)
 //                                    .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 80))
 //                            }
-                            // reset button
+//                             reset button
                             Spacer()
                         }
                     } else {
@@ -207,14 +207,14 @@ struct Game: View {
                             ItemView(objective: $objective, zidx: game.highestIdx, ingredient: ingredient, isFinished: $isFinished, isDelete: $isDelete, isDelete2: $isDelete2, isPlaying: $isPlaying)
                         }
                     }
-                    Image(systemName: "trash")
-                                    .font(.system(size: 40))
-                                    .position(isDelete ? CGPoint(x: 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: -100, y: UIScreen.main.bounds.height / 2))
-                                    .animation(.easeIn(duration: 0.1))
-                    Image(systemName: "trash")
-                                    .font(.system(size: 40))
-                                    .position(isDelete2 ? CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: UIScreen.main.bounds.width + 100, y: UIScreen.main.bounds.height / 2))
-                                    .animation(.easeIn(duration: 0.1))
+                    Image("trashbin")
+                            .font(.system(size: 40))
+                            .position(isDelete ? CGPoint(x: 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: -100, y: UIScreen.main.bounds.height / 2))
+                            .animation(.easeIn(duration: 0.1), value: isDelete)
+                    Image("trashbin")
+                            .font(.system(size: 40))
+                            .position(isDelete2 ? CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: UIScreen.main.bounds.width + 100, y: UIScreen.main.bounds.height / 2))
+                            .animation(.easeIn(duration: 0.1), value: isDelete2)
                 }
             } else {
                 Image("white_user")

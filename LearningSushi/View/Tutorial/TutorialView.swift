@@ -42,12 +42,21 @@ struct TutorialView: View {
                     }
                     .controlSize(.extraLarge)
                     .buttonStyle(.bordered)
+                } else {
+                    Button {
+                        mode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .controlSize(.extraLarge)
+                    .buttonStyle(.bordered)
                 }
             }
             .padding(32)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .navigationBarBackButtonHidden(true)
+        .ignoresSafeArea()
     }
 
 }

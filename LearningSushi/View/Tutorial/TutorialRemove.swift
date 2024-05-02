@@ -17,6 +17,7 @@ struct TutorialRemove: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             Image("ipad frame")
                 .resizable()
                 .scaledToFit()
@@ -35,6 +36,7 @@ struct TutorialRemove: View {
                 .offset(CGSize(width: objectOffset + 50, height: 50))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
         .onAppear {
             withAnimation(.spring(duration: 1)) {
                 opacity = 0.5

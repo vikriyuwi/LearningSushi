@@ -20,6 +20,7 @@ struct TutorialSend: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             Image("ipad frame")
                 .resizable()
                 .scaledToFit()

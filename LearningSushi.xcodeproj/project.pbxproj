@@ -13,6 +13,16 @@
 		4CB97E862BE2777400A5BF23 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB97E852BE2777400A5BF23 /* Sound.swift */; };
 		4CB97E892BE27C8E00A5BF23 /* losing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E872BE27C8E00A5BF23 /* losing.mp3 */; };
 		4CB97E8A2BE27C8E00A5BF23 /* winning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4CB97E882BE27C8E00A5BF23 /* winning.mp3 */; };
+		B2163ED42BE3398300C01A97 /* TutorialSushiSalmon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163ED32BE3398300C01A97 /* TutorialSushiSalmon.swift */; };
+		B2163ED62BE339B200C01A97 /* TutorialSushiTuna.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163ED52BE339B200C01A97 /* TutorialSushiTuna.swift */; };
+		B2163ED82BE339C400C01A97 /* TutorialSushiShrimp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163ED72BE339C400C01A97 /* TutorialSushiShrimp.swift */; };
+		B2163EDA2BE339D600C01A97 /* TutorialNoriTobiko.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163ED92BE339D600C01A97 /* TutorialNoriTobiko.swift */; };
+		B2163EDE2BE339F600C01A97 /* TutorialNoriWakame.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EDD2BE339F600C01A97 /* TutorialNoriWakame.swift */; };
+		B2163EE02BE33A1100C01A97 /* TutorialSushiTamago.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EDF2BE33A1100C01A97 /* TutorialSushiTamago.swift */; };
+		B2163EE22BE33A1D00C01A97 /* TutorialSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EE12BE33A1D00C01A97 /* TutorialSend.swift */; };
+		B2163EE42BE33A2800C01A97 /* TutorialRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EE32BE33A2800C01A97 /* TutorialRemove.swift */; };
+		B2163EE62BE33A4500C01A97 /* TutorialSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EE52BE33A4500C01A97 /* TutorialSubmit.swift */; };
+		B2163EE82BE33A5F00C01A97 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2163EE72BE33A5F00C01A97 /* TutorialView.swift */; };
 		B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */; };
 		B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26DF8712BD8F40B0030F101 /* ContentView.swift */; };
 		B26DF8742BD8F40C0030F101 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B26DF8732BD8F40C0030F101 /* Assets.xcassets */; };
@@ -34,6 +44,16 @@
 		4CB97E852BE2777400A5BF23 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		4CB97E872BE27C8E00A5BF23 /* losing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = losing.mp3; sourceTree = "<group>"; };
 		4CB97E882BE27C8E00A5BF23 /* winning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winning.mp3; sourceTree = "<group>"; };
+		B2163ED32BE3398300C01A97 /* TutorialSushiSalmon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSushiSalmon.swift; sourceTree = "<group>"; };
+		B2163ED52BE339B200C01A97 /* TutorialSushiTuna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSushiTuna.swift; sourceTree = "<group>"; };
+		B2163ED72BE339C400C01A97 /* TutorialSushiShrimp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSushiShrimp.swift; sourceTree = "<group>"; };
+		B2163ED92BE339D600C01A97 /* TutorialNoriTobiko.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialNoriTobiko.swift; sourceTree = "<group>"; };
+		B2163EDD2BE339F600C01A97 /* TutorialNoriWakame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialNoriWakame.swift; sourceTree = "<group>"; };
+		B2163EDF2BE33A1100C01A97 /* TutorialSushiTamago.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSushiTamago.swift; sourceTree = "<group>"; };
+		B2163EE12BE33A1D00C01A97 /* TutorialSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSend.swift; sourceTree = "<group>"; };
+		B2163EE32BE33A2800C01A97 /* TutorialRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRemove.swift; sourceTree = "<group>"; };
+		B2163EE52BE33A4500C01A97 /* TutorialSubmit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSubmit.swift; sourceTree = "<group>"; };
+		B2163EE72BE33A5F00C01A97 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		B26DF86C2BD8F40B0030F101 /* LearningSushi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningSushi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26DF86F2BD8F40B0030F101 /* LearningSushiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSushiApp.swift; sourceTree = "<group>"; };
 		B26DF8712BD8F40B0030F101 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +92,23 @@
 			path = Sound;
 			sourceTree = "<group>";
 		};
+		B2163ED22BE3396700C01A97 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				B2163ED32BE3398300C01A97 /* TutorialSushiSalmon.swift */,
+				B2163ED52BE339B200C01A97 /* TutorialSushiTuna.swift */,
+				B2163ED72BE339C400C01A97 /* TutorialSushiShrimp.swift */,
+				B2163ED92BE339D600C01A97 /* TutorialNoriTobiko.swift */,
+				B2163EDD2BE339F600C01A97 /* TutorialNoriWakame.swift */,
+				B2163EDF2BE33A1100C01A97 /* TutorialSushiTamago.swift */,
+				B2163EE12BE33A1D00C01A97 /* TutorialSend.swift */,
+				B2163EE32BE33A2800C01A97 /* TutorialRemove.swift */,
+				B2163EE52BE33A4500C01A97 /* TutorialSubmit.swift */,
+				B2163EE72BE33A5F00C01A97 /* TutorialView.swift */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
 		B26DF8632BD8F40B0030F101 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +144,7 @@
 		F6876C7D2BDEA105000A8AAD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B2163ED22BE3396700C01A97 /* Tutorial */,
 				F6876C8C2BDEA1BF000A8AAD /* Lobby.swift */,
 				F6876C8E2BDEA1D7000A8AAD /* Game.swift */,
 			);
@@ -216,19 +254,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2163EE42BE33A2800C01A97 /* TutorialRemove.swift in Sources */,
 				4CB97E862BE2777400A5BF23 /* Sound.swift in Sources */,
+				B2163EDA2BE339D600C01A97 /* TutorialNoriTobiko.swift in Sources */,
 				B26DF8722BD8F40B0030F101 /* ContentView.swift in Sources */,
+				B2163EE22BE33A1D00C01A97 /* TutorialSend.swift in Sources */,
+				B2163ED42BE3398300C01A97 /* TutorialSushiSalmon.swift in Sources */,
 				F6876C8F2BDEA1D7000A8AAD /* Game.swift in Sources */,
 				F6876C872BDEA191000A8AAD /* ItemView.swift in Sources */,
 				F6876C942BDEA21E000A8AAD /* MPConnectionManager.swift in Sources */,
+				B2163EE82BE33A5F00C01A97 /* TutorialView.swift in Sources */,
+				B2163EE62BE33A4500C01A97 /* TutorialSubmit.swift in Sources */,
 				F6876C8D2BDEA1BF000A8AAD /* Lobby.swift in Sources */,
+				B2163ED82BE339C400C01A97 /* TutorialSushiShrimp.swift in Sources */,
+				B2163EDE2BE339F600C01A97 /* TutorialNoriWakame.swift in Sources */,
 				F6876C8B2BDEA1B2000A8AAD /* UserCharacter.swift in Sources */,
 				B26DF8702BD8F40B0030F101 /* LearningSushiApp.swift in Sources */,
 				F6876C852BDEA181000A8AAD /* MyIngredient.swift in Sources */,
 				F6876C812BDEA155000A8AAD /* Ingredient.swift in Sources */,
 				4C0E53682BDF5A81000CD6BF /* Objective.swift in Sources */,
 				F6876C832BDEA168000A8AAD /* GameService.swift in Sources */,
+				B2163EE02BE33A1100C01A97 /* TutorialSushiTamago.swift in Sources */,
 				F6876C892BDEA1A2000A8AAD /* SelectCharacter.swift in Sources */,
+				B2163ED62BE339B200C01A97 /* TutorialSushiTuna.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

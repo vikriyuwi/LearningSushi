@@ -217,52 +217,37 @@ struct Game: View {
                             .animation(.easeIn(duration: 0.1), value: isDelete2)
                 }
             } else {
-                Image("white_user")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .transition(.slide)
-                    .offset(floating)
-                    .rotationEffect(swing)
-                    .onAppear {
-                        let baseAnimation = Animation.easeInOut(duration: 2)
-                        let repeated = baseAnimation.repeatForever(autoreverses: true)
+                VStack {
+                    Spacer()
+                    Image("menu")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width / 3 * 2)
+                    Spacer()
+                }
+                .onAppear {
+                    Task {
+                        try? await Task.sleep(for: .seconds(3))
+                        isStart = true
+                        Sound.stopBackground()
+                        Sound.playBackground()
+                    }
+                }
+                .onAppear {
+                    Task {
+                        // start timer
+                        munculTimer = true
+                        // time is up
 
-                        withAnimation(repeated) {
-                            swing = Angle(degrees: 10)
+                        // timer
+                        try? await Task.sleep(for: .seconds(90))
+                        isButtonEnabled = false
+                        if connectionManager.playerFinished.count < 2 {
+                            connectionManager.addPlayerFailed()
+                            connectionManager.send(ingredient: MyIngredient(name: "failed"))
                         }
                     }
-                    .onAppear {
-                        let baseAnimation2 = Animation.easeInOut(duration: 1)
-                        let repeated2 = baseAnimation2.repeatForever(autoreverses: true)
-
-                        withAnimation(repeated2) {
-                            floating = CGSize(width: 0, height: 5)
-                        }
-                    }
-                    .onAppear {
-                        Task {
-                            try? await Task.sleep(for: .seconds(3))
-                            isStart = true
-                            Sound.stopBackground()
-                            Sound.playBackground()
-                        }
-                    }
-                    .onAppear {
-                        Task {
-                            // start timer
-                            munculTimer = true
-                            // time is up
-
-                            // timer
-                            try? await Task.sleep(for: .seconds(90))
-                            isButtonEnabled = false
-                            if connectionManager.playerFinished.count < 2 {
-                                connectionManager.addPlayerFailed()
-                                connectionManager.send(ingredient: MyIngredient(name: "failed"))
-                            }
-                        }
-                    }
+                }
             }
             if munculTimer {
                 VStack(alignment: .leading) {

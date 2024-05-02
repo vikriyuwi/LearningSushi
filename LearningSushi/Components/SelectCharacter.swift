@@ -5,11 +5,12 @@ struct SelectCharacter: View {
     @Binding var selectedChar: String
     
     @State var breathScale:Double = 0.9
+    @State var paddingChar:CGFloat = 17.6
     
     var body: some View {
         VStack {
             UserCharacter(imgName: selectedChar != "" ? selectedChar : "red_user", isFlying: true, selectedChar: $selectedChar, isSheetOpen: $isSheetOpen)
-                .padding()
+                .padding(paddingChar)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(40)
                 .frame(width: 120, height: 120)
@@ -20,6 +21,7 @@ struct SelectCharacter: View {
 
                     withAnimation(repeated) {
                         breathScale = 1
+                        paddingChar = 16
                     }
                 }
         }

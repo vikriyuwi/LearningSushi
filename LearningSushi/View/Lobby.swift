@@ -1,5 +1,5 @@
-import SwiftUI
 import AVFoundation
+import SwiftUI
 
 struct Lobby: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
@@ -13,7 +13,7 @@ struct Lobby: View {
 
     @State var opacityScale: Double = 0.2
     @State var scaleEffect: Double = 0.9
-
+    @State var isTimeout = false
     init(selectedChar: String, startGame: Binding<Bool>) {
         self.selectedChar = selectedChar
         self._startGame = startGame
@@ -23,6 +23,13 @@ struct Lobby: View {
     func dismissed() {
         mode.wrappedValue.dismiss()
         game.emptyIngredients()
+    }
+
+    func timeout() {
+        isTimeout = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+            isTimeout = false
+        }
     }
 
     var body: some View {
@@ -69,6 +76,7 @@ struct Lobby: View {
                         ForEach(self.connectionManager.availablePeers, id: \.self) {
                             peer in
                             Button(action: {
+                                timeout()
                                 self.connectionManager.nearbyServiceBrowser.invitePeer(peer, to: self.connectionManager.session, withContext: nil, timeout: 30)
                                 Sound.playClick()
                             }) {
@@ -111,6 +119,16 @@ struct Lobby: View {
                 }
             }
             .offset(y: 32)
+
+            if isTimeout {
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                        .scaleEffect(4, anchor: .center)
+                }
+                .frame(width: .infinity, height: .infinity)
+                .background(Color.black.opacity(0.6))
+            }
         }
         .onAppear {
             Sound.playClick()
@@ -135,7 +153,7 @@ struct Lobby: View {
             }
         }
         .fullScreenCover(isPresented: $startGame) {
-            Game(dismissed: self.dismissed)
+            Game(dismissed: self.dismissed, isTimeout: $isTimeout)
                 .environmentObject(self.game)
                 .environmentObject(self.connectionManager)
         }

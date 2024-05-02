@@ -1,5 +1,5 @@
-import SwiftUI
 import AVFoundation
+import SwiftUI
 
 struct ContentView: View {
     @State var selectedChar: String = "white_user"
@@ -7,7 +7,7 @@ struct ContentView: View {
     @State var startGame = false
     @StateObject var game = GameService()
     @State private var audioPlayer: AVAudioPlayer?
-    @State var isShowTutorial:Bool = false
+    @State var isShowTutorial: Bool = false
     var body: some View {
         NavigationView {
             ZStack {
@@ -26,10 +26,8 @@ struct ContentView: View {
                             .frame(height: 80)
                             .padding(.top)
                     }
-                    HStack {
-                        
-                    }
-                    .padding(8)
+                    HStack {}
+                        .padding(8)
                     NavigationLink {
                         TutorialView()
                     } label: {

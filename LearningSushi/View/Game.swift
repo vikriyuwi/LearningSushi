@@ -1,5 +1,5 @@
-import SwiftUI
 import AVFoundation
+import SwiftUI
 
 struct Game: View {
     @EnvironmentObject var connectionManager: MPConnectionManager
@@ -11,7 +11,7 @@ struct Game: View {
     @State var isStart = false
     @State var isFinished = false
     @State var isPlaying = true
-    
+
     @State var isDelete = false
     @State var isDelete2 = false
 
@@ -23,15 +23,16 @@ struct Game: View {
     @State private var munculTimer: Bool = false
     @State var widthCountDown: CGFloat = 0
     @State var colorCountDown: Color = .green
-    
+
     @State private var audioPlayer: AVAudioPlayer?
-    
+
     @State var isButtonEnabled = true
     var buttonWidth = 60
-    @State var timerTrim:CGFloat = 0
-    
+    @State var timerTrim: CGFloat = 0
+
     var screenHeight = UIScreen.main.bounds.height
     var dismissed: () -> Void
+    @Binding var isTimeout: Bool
 
     var body: some View {
         ZStack {
@@ -47,7 +48,7 @@ struct Game: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
-                            .onAppear(){
+                            .onAppear {
                                 isButtonEnabled = false
                                 Sound.playLoseSound()
                                 isPlaying = false
@@ -93,7 +94,7 @@ struct Game: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .ignoresSafeArea()
-                            .onAppear(){
+                            .onAppear {
                                 isButtonEnabled = false
                                 Sound.playWinSound()
                                 isPlaying = false
@@ -146,21 +147,21 @@ struct Game: View {
                 } else {
                     Button {
                         guard isButtonEnabled else { return }
-                        
+
                         if connectionManager.playerFinished.count == 2 {
                             return
                         }
-                        
+
                         isButtonEnabled = false
-                        
+
                         let newIngredient = MyIngredient(name: ingredients.randomElement()!)
                         self.game.ingredients.append(newIngredient)
                         game.highestIdx += 1
-                        
+
                         withAnimation(Animation.easeIn(duration: 2)) {
                             timerTrim = 1
                         }
-                        
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             if connectionManager.playerFinished.count == 2 {
                                 return
@@ -168,7 +169,6 @@ struct Game: View {
                             isButtonEnabled = true
                             timerTrim = 0
                         }
-                        
 
                     } label: {
                         ZStack {
@@ -179,11 +179,10 @@ struct Game: View {
                                 .frame(width: CGFloat(buttonWidth))
                             Circle()
                                 .trim(from: 0, to: timerTrim)
-                                .stroke(style: StrokeStyle(lineWidth: CGFloat(buttonWidth/4), lineCap: .round, lineJoin: .round))
+                                .stroke(style: StrokeStyle(lineWidth: CGFloat(buttonWidth / 4), lineCap: .round, lineJoin: .round))
                                 .background(Color.clear)
                                 .rotationEffect(Angle(degrees: -90))
                                 .scaleEffect(isButtonEnabled ? 0 : 1)
-                                
                         }
                         .frame(width: CGFloat(buttonWidth), height: CGFloat(buttonWidth))
                     }
@@ -208,13 +207,13 @@ struct Game: View {
                         }
                     }
                     Image("trashbin")
-                            .font(.system(size: 40))
-                            .position(isDelete ? CGPoint(x: 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: -100, y: UIScreen.main.bounds.height / 2))
-                            .animation(.easeIn(duration: 0.1), value: isDelete)
+                        .font(.system(size: 40))
+                        .position(isDelete ? CGPoint(x: 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: -100, y: UIScreen.main.bounds.height / 2))
+                        .animation(.easeIn(duration: 0.1), value: isDelete)
                     Image("trashbin")
-                            .font(.system(size: 40))
-                            .position(isDelete2 ? CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: UIScreen.main.bounds.width + 100, y: UIScreen.main.bounds.height / 2))
-                            .animation(.easeIn(duration: 0.1), value: isDelete2)
+                        .font(.system(size: 40))
+                        .position(isDelete2 ? CGPoint(x: UIScreen.main.bounds.width - 100, y: UIScreen.main.bounds.height / 2) : CGPoint(x: UIScreen.main.bounds.width + 100, y: UIScreen.main.bounds.height / 2))
+                        .animation(.easeIn(duration: 0.1), value: isDelete2)
                 }
             } else {
                 VStack {
@@ -280,6 +279,7 @@ struct Game: View {
         }
         .ignoresSafeArea()
         .onAppear {
+            isTimeout = false
             connectionManager.setupObjective(objective: objective)
             for _ in 0 ..< 5 {
                 let randIdx: Int = .random(in: 0 ... objective.ingredients.count - 1)
